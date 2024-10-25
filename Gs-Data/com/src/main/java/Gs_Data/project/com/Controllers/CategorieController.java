@@ -1,29 +1,25 @@
-package Gs_Data.project.com.Controlleur;
+package Gs_Data.project.com.Controllers;
 
 import Gs_Data.project.com.Entities.Categorie;
 import Gs_Data.project.com.Services.CategorieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 public class CategorieController {
-    private final CategorieService categorieService;
-
-    public CategorieController(CategorieService categorieService) {
-        this.categorieService = categorieService;
-    }
+    @Autowired
+    private CategorieService categorieService;
 
     @GetMapping
     public List<Categorie> getAll() {
         return categorieService.findAll();
     }
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public Categorie create(@RequestBody Categorie categorie) {
         return categorieService.save(categorie);
     }
-
-    // Autres endpoints pour la gestion des catégories
 }

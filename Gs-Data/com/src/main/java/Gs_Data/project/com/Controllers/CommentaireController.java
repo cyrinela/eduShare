@@ -1,29 +1,25 @@
-package Gs_Data.project.com.Controlleur;
+package Gs_Data.project.com.Controllers;
 
 import Gs_Data.project.com.Entities.Commentaire;
 import Gs_Data.project.com.Services.CommentaireService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/commentaires")
+@RequestMapping("/commentaires")
 public class CommentaireController {
-    private final CommentaireService commentaireService;
-
-    public CommentaireController(CommentaireService commentaireService) {
-        this.commentaireService = commentaireService;
-    }
+    @Autowired
+    private CommentaireService commentaireService;
 
     @GetMapping
     public List<Commentaire> getAll() {
         return commentaireService.findAll();
     }
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public Commentaire create(@RequestBody Commentaire commentaire) {
         return commentaireService.save(commentaire);
     }
-
-    // Autres endpoints pour la gestion des commentaires
 }

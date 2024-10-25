@@ -23,6 +23,4 @@ public class Ressource {
 
     private LocalDateTime creeLe;
     private LocalDateTime modifieLe;
-
-    // Getters et Setters
 }

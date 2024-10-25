@@ -1,29 +1,25 @@
-package Gs_Data.project.com.Controlleur;
+package Gs_Data.project.com.Controllers;
 
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ressources")
+@RequestMapping("/ressources")
 public class RessourceController {
-    private final RessourceService ressourceService;
-
-    public RessourceController(RessourceService ressourceService) {
-        this.ressourceService = ressourceService;
-    }
+    @Autowired
+    private RessourceService ressourceService;
 
     @GetMapping
     public List<Ressource> getAll() {
         return ressourceService.findAll();
     }
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public Ressource create(@RequestBody Ressource ressource) {
         return ressourceService.save(ressource);
     }
-
-    // Autres endpoints pour la gestion des ressources
 }
