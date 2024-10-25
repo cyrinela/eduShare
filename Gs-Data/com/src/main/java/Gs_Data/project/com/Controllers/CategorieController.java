@@ -3,6 +3,7 @@ package Gs_Data.project.com.Controllers;
 import Gs_Data.project.com.Entities.Categorie;
 import Gs_Data.project.com.Services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,27 @@ public class CategorieController {
     @GetMapping
     public List<Categorie> getAll() {
         return categorieService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Categorie findById(@PathVariable Long id) {
+        return categorieService.findById(id);
+    }
+
+    @PostMapping("/modify/{id}")
+    public ResponseEntity<String> modify(@RequestBody Categorie categorie,@PathVariable Long id) {
+        if (categorieService.Modify(id,categorie)) {
+            return ResponseEntity.ok("Categorie modified");
+        }
+        return ResponseEntity.status(404).body("error occurred");
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        if (categorieService.Delete(id)) {
+            return ResponseEntity.ok("Categorie deleted");
+        }
+        return ResponseEntity.ok("error occurred");
     }
 
     @PostMapping(path = "/add")

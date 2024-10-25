@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +22,8 @@ public class Ressource {
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
-
+    @CreationTimestamp
     private LocalDateTime creeLe;
+    @UpdateTimestamp
     private LocalDateTime modifieLe;
 }

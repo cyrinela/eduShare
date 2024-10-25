@@ -2,6 +2,7 @@ package Gs_Data.project.com.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class Commentaire {
     private Long id;
 
     private String contenu;
+    @CreationTimestamp
     private LocalDateTime dateCreation;
 
     @ManyToOne
