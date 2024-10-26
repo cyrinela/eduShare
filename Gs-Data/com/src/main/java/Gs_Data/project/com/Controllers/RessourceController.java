@@ -6,6 +6,7 @@ import Gs_Data.project.com.Services.RessourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,11 +39,21 @@ public class RessourceController {
         if (ressourceService.Delete(id)) {
             return ResponseEntity.ok("Ressource deleted");
         }
-        return ResponseEntity.ok("error occurred");
+        return ResponseEntity.status(404).body("error occurred");
     }
 
     @PostMapping(path = "/add")
     public Ressource create(@RequestBody Ressource ressource) {
         return ressourceService.save(ressource);
+    }
+
+    @PostMapping(path = "/uploadFile")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("ressourceId") Long ressourceId) {
+        if (ressourceService.uploadFile(file,ressourceId)) {
+            return ResponseEntity.ok("File uploaded");
+        }
+        return ResponseEntity.status(404).body("error occurred");
     }
 }

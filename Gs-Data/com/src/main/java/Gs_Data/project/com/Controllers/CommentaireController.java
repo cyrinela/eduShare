@@ -38,7 +38,7 @@ public class CommentaireController {
         if (commentaireService.Delete(id)) {
             return ResponseEntity.ok("Commentaire deleted");
         }
-        return ResponseEntity.ok("error occurred");
+        return ResponseEntity.status(404).body("error occurred");
     }
 
     @PostMapping(path = "/add")

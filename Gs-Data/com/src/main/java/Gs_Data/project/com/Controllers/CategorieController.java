@@ -37,7 +37,7 @@ public class CategorieController {
         if (categorieService.Delete(id)) {
             return ResponseEntity.ok("Categorie deleted");
         }
-        return ResponseEntity.ok("error occurred");
+        return ResponseEntity.status(404).body("error occurred");
     }
 
     @PostMapping(path = "/add")

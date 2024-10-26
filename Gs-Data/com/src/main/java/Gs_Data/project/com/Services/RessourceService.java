@@ -1,10 +1,13 @@
 package Gs_Data.project.com.Services;
 
 import Gs_Data.project.com.Entities.Commentaire;
+import Gs_Data.project.com.Entities.FileMetaData;
 import Gs_Data.project.com.Entities.Ressource;
+import Gs_Data.project.com.Repositories.FileMetaDataRepository;
 import Gs_Data.project.com.Repositories.RessourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,6 +15,8 @@ import java.util.List;
 public class RessourceService {
     @Autowired
     private RessourceRepository ressourceRepository;
+    @Autowired
+    private FileMetaDataRepository fileMetaDataRepository;
 
     public List<Ressource> findAll() {
         return ressourceRepository.findAll();
@@ -44,5 +49,28 @@ public class RessourceService {
 
     public Ressource save(Ressource ressource) {
         return ressourceRepository.save(ressource);
+    }
+
+    public boolean uploadFile(MultipartFile file, Long RessourceId) {
+        try {
+
+        Ressource TargetRessource = findById(RessourceId);
+
+        FileMetaData meta = new FileMetaData();
+
+        meta.setFileName(file.getOriginalFilename());
+        meta.setFileType(file.getContentType());
+        meta.setFileSize(file.getSize());
+        meta.setFileUrl(null); // to change later
+        meta.setRessource(TargetRessource);
+
+        fileMetaDataRepository.save(meta);
+
+        TargetRessource.setFileMetaData(meta);
+        return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 }

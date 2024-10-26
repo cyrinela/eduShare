@@ -22,6 +22,11 @@ public class Ressource {
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id", referencedColumnName = "id")
+    private FileMetaData fileMetaData;
+
     @CreationTimestamp
     private LocalDateTime creeLe;
     @UpdateTimestamp
