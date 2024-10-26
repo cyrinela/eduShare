@@ -55,6 +55,7 @@ public class RessourceService {
         try {
 
         Ressource TargetRessource = findById(RessourceId);
+        if (TargetRessource == null) { throw new Exception("Ressource not found"); }
 
         FileMetaData meta = new FileMetaData();
 
