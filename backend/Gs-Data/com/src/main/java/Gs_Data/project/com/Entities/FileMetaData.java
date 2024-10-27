@@ -1,5 +1,6 @@
 package Gs_Data.project.com.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,9 @@ public class FileMetaData {
     @Column(nullable = false)
     private Long fileSize;
 
-    private String fileUrl;
+    private String fileUrlId;
 
-    @OneToOne(mappedBy = "fileMetaData")
+    @OneToOne(mappedBy = "fileMetaData", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private Ressource ressource;
 }

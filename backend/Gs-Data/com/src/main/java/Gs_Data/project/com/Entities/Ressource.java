@@ -1,5 +1,6 @@
 package Gs_Data.project.com.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Ressource {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
     private String description;
@@ -23,8 +23,10 @@ public class Ressource {
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "file_id", referencedColumnName = "id")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonManagedReference
     private FileMetaData fileMetaData;
 
     @CreationTimestamp

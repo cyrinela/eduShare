@@ -4,10 +4,15 @@ import Gs_Data.project.com.Entities.Commentaire;
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -42,18 +47,24 @@ public class RessourceController {
         return ResponseEntity.status(404).body("error occurred");
     }
 
-    @PostMapping(path = "/add")
-    public Ressource create(@RequestBody Ressource ressource) {
-        return ressourceService.save(ressource);
-    }
-
-    @PostMapping(path = "/uploadFile")
-    public ResponseEntity<String> uploadFile(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("ressourceId") Long ressourceId) {
-        if (ressourceService.uploadFile(file,ressourceId)) {
-            return ResponseEntity.ok("File uploaded");
+    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> create(@RequestPart(name = "ressource") Ressource ressource,
+                                         @RequestPart(name = "file") MultipartFile file) throws IOException {
+        if (ressourceService.save(ressource,file)) {
+            return ResponseEntity.ok("Ressource saved");
         }
         return ResponseEntity.status(404).body("error occurred");
+    }
+
+    @GetMapping(path = "/download/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
+        GridFsResource ResultFile = ressourceService.downloadFile(id);
+        if (ResultFile != null) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(ResultFile.getContentType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + ResultFile.getFilename() + "\"")
+                    .body(ResultFile);
+        }
+        return ResponseEntity.status(500).body(null);
     }
 }
