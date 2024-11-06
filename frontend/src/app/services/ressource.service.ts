@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Ressource } from 'src/app/model/ressource.model';
-
 
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -16,23 +15,15 @@ const httpOptions = {
 })
 
 export class RessourceService {
-  apiURL: string = 'http://localhost:8888/GS-DATA/ressources';
+  apiURL: string = 'http://localhost:8100/ressources';
+ // apiURLCat: string = 'http://localhost:8100/categories';
 
-  ressources!: Ressource[];
- // categories : Categorie[];
+
+  ressources: Ressource[] =[];
+ //categories! : Categorie[];
 
   constructor(private http : HttpClient) {
-  /*  this.categories=[{idCat : 1, nomCat : "PC"},
-                    {idCat : 2, nomCat : "Imprimante"}];*/
-  /*  this.ressources = [
-        {idProduit : 1, nomProduit : "PC Asus", prixProduit : 3000.600, dateCreation : new Date("01/14/2011"),
-          categorie : {idCat : 1, nomCat : "PC"}},
-        {idProduit : 2, nomProduit : "Imprimante Epson", prixProduit : 450, dateCreation : new Date("12/17/2010"),
-          categorie : {idCat : 2, nomCat : "Imprimante"} },
-        {idProduit : 3, nomProduit :"Tablette Samsung", prixProduit : 900.123, dateCreation : new Date("02/20/2020"),
-          categorie : {idCat : 1, nomCat : "PC"}}
 
-                      ];*/
     }
 
 
@@ -42,20 +33,38 @@ listeRessource(): Observable<Ressource[]>{
   }
 
 
-  ajouterRessource( reso: Ressource):Observable<Ressource>{
-    return this.http.post<Ressource>(this.apiURL, reso, httpOptions);
+
+      ajouterRessource(reso: Ressource, file: File): Observable<any> {
+        const formData: FormData = new FormData();
+
+        // Append the Ressource object as JSON
+        formData.append('ressource', new Blob([JSON.stringify(reso)], { type: 'application/json' }));
+
+        // Append the file
+        formData.append('file', file);
+
+        return this.http.post(`${this.apiURL}/add`, formData, { observe: 'response' });
     }
 
+      uploadFile(file: File, fileUrlId: string): Observable<any> {
+        const formData: FormData = new FormData();
+        formData.append('file', file);
+        formData.append('fileUrlId', fileUrlId); // Append the resource ID or another identifier
 
-  /**   ajouterRessource(reso: Ressource): Observable<Ressource> {
-      return this.http.post<Ressource>(`${this.apiURL}/add`, reso, httpOptions);
-  }*/
-
-    supprimerRessource(id : number) {
-      const url = `${this.apiURL}/${id}`;
-      return this.http.delete(url, httpOptions);
+        return this.http.post(`${this.apiURL}/upload`, formData, { responseType: 'text' });
       }
 
+
+    supprimerRessource(id: number): Observable<any> {
+      const url = `${this.apiURL}/${id}`;
+      console.log(`Attempting to delete resource at: ${url}`);
+      return this.http.delete(url, httpOptions).pipe(
+          catchError(error => {
+              console.error('Erreur lors de la suppression:', error);
+              return throwError(error); // Rethrow the error for further handling
+          })
+      );
+  }
 
       consulterRessource(id: number): Observable<Ressource> {
         const url = `${this.apiURL}/${id}`;
@@ -73,11 +82,21 @@ listeRessource(): Observable<Ressource[]>{
         return 0;
         });
         }
-        updateRessource(prod :Ressource) : Observable<Ressource>
-        {
-        return this.http.put<Ressource>(this.apiURL, prod, httpOptions);
+        getAllResources(): Observable<Ressource[]> {
+          return this.http.get<Ressource[]>(this.apiURL);
         }
 
 
+updateRessource(id: number, prod: Ressource): Observable<Ressource> {
+  const url = `${this.apiURL}/${id}`;
+  return this.http.put<Ressource>(url, prod, httpOptions);
+}
+
+  downloadFile(id: number) {
+    const url = `${this.apiURL}/download/${id}`;
+    return this.http.get(url, {
+      responseType: 'blob' // This is important to handle binary data
+    });
+  }
 
 }

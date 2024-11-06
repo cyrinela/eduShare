@@ -1,24 +1,16 @@
- <section class="text-gray-600 body-font">
-<div class="container">
-  <div class="card shadow mb-4">
-  <div class="card-body">
-  <table class="table table-striped">
-  <tr> <th>Id</th><th>Nom</th> <th>description</th> </tr>
-  <tbody *ngFor="let ressource of ressources">
-  <tr >
-  <td>{{ressource.id}}</td>
-  <td>{{ressource.nom}}</td>
-  <td>{{ressource.description}}</td>
+<div class="data-container">
+  <div *ngFor="let item of ressources" class="card" [attr.id]="'item-' + item.id">
+      <div class="card-body">
+          <h5 class="card-title" style="font-size: large;font-weight: bold;">nom de ressource:     {{ item.nom }}</h5>
+          <p class="card-text">{{ item.description }}</p>
+          <td> created:   {{item.creeLe | date:'dd/MM/yyyy'}}</td>
+          <td>fileType:    {{item.fileMetaData.fileName}}</td>
 
 
-  <td><a class="btn btn-danger" (click)="supprimerRessource(ressource)">Supprimer</a></td>
-  <td><a class="btn btn-success" [routerLink]="['/updateRessource',ressource.id]">Modifier</a></td>
+         <div>
+          <a class="btn btn-danger" (click)="supprimerRessource(item)" style="margin-right: 18px;">Delete</a>
+          <a class="btn btn-success" [routerLink]="['/updateRessource',item.id]" style="margin-right: 18px;">Edit</a>
+          <a class="btn btn-secondary"(click)="downloadRessourceFile(item.id)">Download</a>
 
-  </tr>
-  </tbody>
-  </table>
-  </div>
-  </div>
-  </div>
-  </section>
-<!--   <td>{{ressource.categorie.nomCat}}</td> -->
+        </div>
+<div>
