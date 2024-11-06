@@ -12,7 +12,6 @@ import { RessourceService } from './../../services/ressource.service';
 export class UpdateRessourceComponent implements OnInit {
 
   currentRessource = new Ressource();
-  //categories! : Categorie[];
   updatedCatId! : number;
 
 
@@ -23,23 +22,27 @@ export class UpdateRessourceComponent implements OnInit {
  }
 
   ngOnInit(): void {
-    //console.log(this.activatedRoute.snapshot.params['id']);
-   // this.categories = this.ressourceService.listeCategories();
+
    this.ressourceService.consulterRessource(this.activatedRoute.snapshot.params['id']).
  subscribe( reso =>{ this.currentRessource = reso; } ) ;
-    //console.log(this.currentRessource);
+
 
   }
 
 
-  updateRessource(){
-   // console.log(this.currentRessource);
-  // this.currentRessource.categorie=this.ressourceService.consulterCategorie(this.updatedCatId);
-  this.ressourceService.updateRessource(this.currentRessource).subscribe(reso => {
-    this.router.navigate(['ressources']); }
-    );
 
-  }
+  updateRessource(prod: Ressource): void { // or rename the HTML to match this method's new name
+   // this.currentRessource.categorie = this.categories.find(cat => cat.idCat == this.updatedCatId)!;
+    this.ressourceService.updateRessource(prod.id, prod).subscribe(
+      (response) => {
+          console.log('Resource updated successfully', response);
+      },
+      (error) => {
+          console.error('Error updating resource:', error); // Log the complete error object
+          console.error('Error details:', error.error); // Log the error body, if available
+      }
+  );
+}
 
 
 
