@@ -2,20 +2,28 @@
 <section class="text-gray-600 body-font">
   <div class="container">
     <div>
-    <h2>Ajouter un Ressource :</h2>
+    <h2>Ajouter un Produit :</h2>
     </div>
     <form >
       <div hidden class="col-sm-2 col-md-2 col-lg-2">
       <label >ID Ressource</label>
-      <input type="text" [(ngModel)]="newRessource.id" name="idRessource" class="form-control">
+      <input type="text" [(ngModel)]="newRessource.id" name="idressource" class="form-control">
       </div>
       <div class="col-sm-4 col-md-4 col-lg-4" >
-      <label >Nom Ressource</label>
+      <label >Nom de Ressource</label>
       <input type="text"[(ngModel)]= "newRessource.nom" name="nomRessource" class="form-control">
       </div>
       <div class="col-sm-2 col-md-2 col-lg-2">
-        <label >desc Ressource</label>
-        <input type="text" [(ngModel)]= "newRessource.description" name="descRessource" class="form-control">
+        <label >Description</label>
+        <input type="text" [(ngModel)]= "newRessource.description" name="descriptionressource" class="form-control">
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+        <label >Date création</label>
+        <input type="date" [(ngModel)]= "newRessource.creeLe" name="dateCreation" class="form-control">
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+          <label>Upload File</label>
+          <input type="file" (change)="onFileChange($event)" class="form-control" required>
         </div>
 
         <!-- <div class="col-sm-4 col-md-4 col-lg-4">
@@ -33,3 +41,4 @@
         </div>
 
   </section>
+
