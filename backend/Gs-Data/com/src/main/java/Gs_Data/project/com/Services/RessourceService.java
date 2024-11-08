@@ -37,14 +37,16 @@ public class RessourceService {
     public Ressource findById(Long id) {
         return ressourceRepository.findById(id).orElse(null);
     }
-
-    public boolean Modify(Long id,Ressource ressource) {
+    public boolean Modify(Long id, Ressource ressource) {
         Ressource r = findById(id);
         if (r != null) {
-            // dateCreation & dateModification sont constant!
+            // dateCreation & dateModification are constant
             r.setNom(ressource.getNom());
             r.setDescription(ressource.getDescription());
             r.setCategorie(ressource.getCategorie());
+
+            // Save the updated resource
+            ressourceRepository.save(r);
             return true;
         }
         return false;
