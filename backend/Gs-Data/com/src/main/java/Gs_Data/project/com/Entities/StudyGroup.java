@@ -1,6 +1,5 @@
 package Gs_Data.project.com.Entities;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,16 +15,16 @@ public class StudyGroup {
     private String name;
     private String description;
     private String code;
-    private Long userId; // ID de l'utilisateur qui a créé le groupe
+    private Long userId = 1L; // Valeur par défaut pour userId
 
     // Constructeurs
     public StudyGroup() {}
 
-    public StudyGroup(String name, String description, String code, Long userId) {
+    public StudyGroup(String name, String description, String code) {
         this.name = name;
         this.description = description;
         this.code = code;
-        this.userId = userId;
+        // userId est déjà initialisé à 1L par défaut
     }
 
     // Getters et setters
@@ -69,4 +68,3 @@ public class StudyGroup {
         this.userId = userId;
     }
 }
-
