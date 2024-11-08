@@ -49,8 +49,34 @@ export class AddRessourceComponent implements OnInit {
     }
   }
 
-  // Method to add resource
+
+
+
+  /****** */
   addRessource() {
+    if (this.selectedFile) {
+        console.log('Resource to add:', this.newRessource);
+        console.log('Selected file:', this.selectedFile);
+ //this.newRessource.categorie = this.categories.find(cat => cat.idCat == this.newIdCat)!;
+        this.ressourceService.ajouterRessource(this.newRessource, this.selectedFile)
+            .subscribe(
+                response => {
+                    console.log('Resource added successfully:', response);
+                    this.router.navigate(['ressources']);
+                },
+                error => {
+                    console.error('Error adding resource:', error); // Check the error details
+                    this.router.navigate(['ressources']);}
+            );
+    } else {
+        console.error('No file selected.'); // Handle no file selected case
+    }
+}
+
+
+  /**** */
+  // Method to add resource
+  /*addRessource() {
     if (this.selectedFile) {
         console.log('Resource to add:', this.newRessource);
         console.log('Selected file:', this.selectedFile);
@@ -68,7 +94,7 @@ export class AddRessourceComponent implements OnInit {
     } else {
         console.error('No file selected.'); // Handle no file selected case
     }
-}
+}*/
   uploadFile(id: number, file: File) {
     this.ressourceService.uploadFile(file, id.toString()).subscribe(
       response => {
