@@ -21,7 +21,7 @@
 
     <!-- Ressources Submenu -->
     <li>
-      <a routerLinkActive="active" (click)="toggleRessourceSubmenu()">
+      <a routerLinkActive="active" (click)="toggleRessourceSubmenu()" routerLink="/ressources" routerLinkActive="active">
         <span class="menu-icon material-icons">folder</span>
         <span class="menu-text">Ressource</span>
         <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isRessourceSubmenuOpen }">
