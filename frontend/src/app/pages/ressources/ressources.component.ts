@@ -1,143 +1,76 @@
 import { Component, OnInit } from '@angular/core';
 import { Ressource } from 'src/app/model/ressource.model';
 import { RessourceService } from '../../services/ressource.service';
+
 @Component({
   selector: 'app-ressources',
   templateUrl: './ressources.component.html',
-  styleUrl: './ressources.component.scss',
-  styles: [`
-    .data-container {
-        display: flex;
-        flex-direction: column;
-        gap: 16px; /* Space between cards */
-    }
-    .card {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .card-title {
-        font-size: 1.25rem;
-        margin: 0 0 8px;
-    }
-    .card-text {
-        margin: 0 0 16px;
-    }
-    button {
-        margin-right: 8px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-  `]
+  styleUrls: ['./ressources.component.scss'],  // Correction ici
 })
 export class RessourcesComponent implements OnInit {
-  ressources! : Ressource[];
-
-
+  ressources: Ressource[] = [];  // Initialisation de ressources pour éviter des erreurs
   commentText: string = '';
-  constructor(private ressourceService: RessourceService,
-   ){
 
-   //this.ressources =[];
+  constructor(private ressourceService: RessourceService) {}
 
-   //this.ressources = this.ressourceService.listeRessources();
-  }
   ngOnInit(): void {
-   /* this.ressourceService.listeRessource().subscribe(reso => {
-      console.log(reso);
-      this.ressources = reso;
-      this.chargerRessources();
-
-      });*/
-
-      this.loadRessources();
-      this.chargerRessources();
-      /*this.loadRessources();
-      this.chargerRessources();*/
+    this.loadRessources();  // Chargement des ressources à l'initialisation
   }
 
-  chargerRessources(){
-    this.ressourceService.listeRessource().subscribe(reso => {
-    console.log(reso);
-    this.ressources = reso;
-    });
-    }
-
-
-
-    supprimerRessource(p: Ressource) {
-      let conf = confirm("Etes-vous sûr ?");
-      if (conf) {
-          this.ressourceService.supprimerRessource(p.id).subscribe({
-              next: () => {
-                  console.log("Produit supprimé");
-                  this.chargerRessources(); // Reload resources
-              },
-              error: (err) => {
-                  console.error("Erreur lors de la suppression:", err);
-                  if (err.status === 404) {
-                      alert("Le produit n'existe pas ou a déjà été supprimé.");
-                  } else if (err.status === 500) {
-                      alert("Une erreur serveur est survenue. Veuillez réessayer plus tard.");
-                  } else {
-                      alert("Une erreur est survenue lors de la suppression du produit.");
-                  }
-              }
-          });
-      }
-  }
-downloadRessourceFile(id: number) {
-    this.ressourceService.downloadFile(id).subscribe({
-      next: (blob) => {
-        // Create a URL for the blob
-        const url = window.URL.createObjectURL(blob);
-
-        // Create a link element to trigger download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'filename.pdf'; // Optionally, set a filename here
-        link.click();
-
-        // Clean up the URL object
-        window.URL.revokeObjectURL(url);
-      },
-      error: (err) => {
-        console.error('File download failed:', err);
-      }
-    });
-  }
-
-  loadRessources() {
+  // Charge les ressources depuis le service
+  loadRessources(): void {
     this.ressourceService.getAllResources().subscribe(
-      (data: Ressource[]) => { // Specify that data is an array of Ressource
-        this.ressources = data; // Assign the fetched data to the ressources array
-        //this.ressources.forEach(resource => this.loadComments(resource.id)); // Load comments for each resource
+      (data: Ressource[]) => {
+        this.ressources = data; // Mise à jour du tableau des ressources
+        console.log('Ressources chargées:', this.ressources); // Optionnel : pour voir les ressources dans la console
       },
       (error) => {
-        console.error('Error fetching resources:', error);
+        console.error('Erreur lors du chargement des ressources:', error);  // Amélioration de la gestion des erreurs
+        alert('Une erreur est survenue lors du chargement des ressources.');  // Affichage d'un message d'erreur générique
       }
     );
   }
 
+  // Supprime une ressource
+  supprimerRessource(p: Ressource): void {
+    let conf = confirm('Etes-vous sûr de vouloir supprimer cette ressource ?');
+    if (conf) {
+      this.ressourceService.supprimerRessource(p.id).subscribe({
+        next: () => {
+          console.log('Ressource supprimée');
+          this.loadRessources(); // Recharger les ressources après suppression
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression de la ressource:', err);
+          if (err.status === 404) {
+            alert('La ressource n\'existe pas ou a déjà été supprimée.');
+          } else if (err.status === 500) {
+            alert('Une erreur serveur est survenue. Veuillez réessayer plus tard.');
+          } else {
+            alert('Une erreur est survenue lors de la suppression de la ressource.');
+          }
+        },
+      });
+    }
+  }
 
-
-
-
-
-
-
-
+  // Télécharge le fichier associé à une ressource
+  downloadRessourceFile(id: number): void {
+    this.ressourceService.downloadFile(id).subscribe({
+      next: (blob) => {
+        // Création de l'URL pour le fichier blob
+        const url = window.URL.createObjectURL(blob);
+        // Création d'un lien pour le téléchargement
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'ressource.pdf'; // Choisissez un nom de fichier ici
+        link.click();
+        window.URL.revokeObjectURL(url); // Nettoyer l'URL après téléchargement
+      },
+      error: (err) => {
+        console.error('Échec du téléchargement du fichier:', err);
+        alert('Échec du téléchargement du fichier.');  // Message d'erreur en cas d'échec
+      },
+    });
+  }
 }

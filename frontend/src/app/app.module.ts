@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,11 +26,16 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component'; // Import FormsModule
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { UpdateRessourceComponent } from './pages/update-ressource/update-ressource.component';
-
+import { CreateStudyGroupComponent } from './pages/create-study-group/create-study-group.component';
+import { JoinStudyGroupComponent } from './pages/join-study-group/join-study-group.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    CreateStudyGroupComponent,
+    JoinStudyGroupComponent,
     SidebarComponent,
     HomeComponent,
     DashboardComponent,
@@ -48,6 +52,8 @@ import { UpdateRessourceComponent } from './pages/update-ressource/update-ressou
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule, 
+    RouterModule,
     // * MATERIAL IMPORTS
     MatSidenavModule,
     MatToolbarModule,

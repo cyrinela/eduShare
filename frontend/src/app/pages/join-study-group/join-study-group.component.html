@@ -1,0 +1,16 @@
+<div class="container">
+  <h2>Rejoindre un Groupe</h2>
+  <div class="card-container">
+    <div *ngFor="let group of groups" class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          <span class="field-label">Nom du Groupe :</span> {{ group.name }}
+        </h5>
+        <p class="card-text">
+          <span class="field-label">Description :</span> {{ group.description }}
+        </p>
+        <button (click)="joinGroup(group.id)" class="btn btn-success join-button">Rejoindre ce groupe</button>
+      </div>
+    </div>
+  </div>
+</div>

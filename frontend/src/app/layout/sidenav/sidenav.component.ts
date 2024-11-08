@@ -14,37 +14,30 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       ]),
     ]),
   ],
-
 })
 export class SidebarComponent implements OnInit {
-
-
   isSidebarVisible = true;
-  isSubmenuOpen = false;
-  isDashboardSelected = false;
-
+  isDashboardSubmenuOpen = false;
+  isRessourceSubmenuOpen = false;
+  isUserSubmenuOpen = false;
 
   constructor(private sidebarService: SidebarService) {}
 
   ngOnInit() {
     this.sidebarService.sidebarVisibility$.subscribe((isVisible) => {
-      console.log(isVisible)
       this.isSidebarVisible = isVisible;
     });
   }
 
-  toggleSidebar() {
-    this.isSidebarVisible = !this.isSidebarVisible;
-    this.sidebarService.toggleSidebar(); // Toggle sidebar state
+  toggleDashboardSubmenu() {
+    this.isDashboardSubmenuOpen = !this.isDashboardSubmenuOpen;
   }
 
-
-  toggleSubmenu() {
-    this.isSubmenuOpen = !this.isSubmenuOpen;
+  toggleRessourceSubmenu() {
+    this.isRessourceSubmenuOpen = !this.isRessourceSubmenuOpen;
   }
 
-
-  selectDashboard() {
-    this.isDashboardSelected = true;
+  toggleUserSubmenu() {
+    this.isUserSubmenuOpen = !this.isUserSubmenuOpen;
   }
 }
