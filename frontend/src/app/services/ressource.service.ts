@@ -34,17 +34,24 @@ listeRessource(): Observable<Ressource[]>{
 
 
 
-      ajouterRessource(reso: Ressource, file: File): Observable<any> {
-        const formData: FormData = new FormData();
+/*
+        ajouterRessource(formData: FormData): Observable<any> {
+          // Perform the HTTP POST request with the formData
+          return this.http.post(`${this.apiURL}/add`, formData);
+        }*/
+          ajouterRessource(reso: Ressource, file: File): Observable<any> {
+            const formData: FormData = new FormData();
 
-        // Append the Ressource object as JSON
-        formData.append('ressource', new Blob([JSON.stringify(reso)], { type: 'application/json' }));
+            // Append the Ressource object as JSON
+            formData.append('ressource', new Blob([JSON.stringify(reso)], { type: 'application/json' }));
 
-        // Append the file
-        formData.append('file', file);
+            // Append the file
+            formData.append('file', file);
 
-        return this.http.post(`${this.apiURL}/add`, formData, { observe: 'response' });
-    }
+            return this.http.post(`${this.apiURL}/add`, formData, { observe: 'response' });
+        }
+
+
 
       uploadFile(file: File, fileUrlId: string): Observable<any> {
         const formData: FormData = new FormData();
@@ -54,6 +61,20 @@ listeRessource(): Observable<Ressource[]>{
         return this.http.post(`${this.apiURL}/upload`, formData, { responseType: 'text' });
       }
 
+
+  /*  supprimerRessource(id: number): Observable<any> {
+      const url = `${this.apiURL}/${id}`;
+      console.log(`Attempting to delete resource at: ${url}`);
+      return this.http.delete(url, httpOptions).pipe(
+          catchError(error => {
+              console.error('Erreur lors de la suppression:', error);
+              return throwError(error); // Rethrow the error for further handling
+          })
+      );
+  }*/
+     /* deleteRessource(id: number): Observable<any> {
+        return this.http.delete(`${this.apiURL}/${id}`);
+      }*/
 
     supprimerRessource(id: number): Observable<any> {
       const url = `${this.apiURL}/${id}`;
@@ -65,7 +86,6 @@ listeRessource(): Observable<Ressource[]>{
           })
       );
   }
-
       consulterRessource(id: number): Observable<Ressource> {
         const url = `${this.apiURL}/${id}`;
         return this.http.get<Ressource>(url);

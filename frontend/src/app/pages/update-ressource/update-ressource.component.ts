@@ -42,6 +42,7 @@ export class UpdateRessourceComponent implements OnInit {
           console.error('Error details:', error.error); // Log the error body, if available
       }
   );
+  this.router.navigate(['ressources']);
 }
 
 
