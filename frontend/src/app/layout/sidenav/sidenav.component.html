@@ -1,14 +1,17 @@
 <div class="sidebar" [ngClass]="{ 'showSidebar': isSidebarVisible, 'hideSidebar': !isSidebarVisible }" [@fadeInOut]>
   <ul>
+    <!-- Dashboard Item -->
     <li>
-      <a routerLinkActive="active" (click)="toggleSubmenu()">
+      <a routerLinkActive="active" (click)="toggleDashboardSubmenu()">
         <span class="menu-icon material-icons">dashboard</span>
         <span class="menu-text">Dashboard</span>
-        <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isSubmenuOpen }">
-          <mat-icon>{{ isSubmenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isDashboardSubmenuOpen }">
+          <mat-icon>{{ isDashboardSubmenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
         </span>
       </a>
+    </li>
 
+    <!-- Home Item -->
     <li>
       <a routerLink="/home" routerLinkActive="active">
         <span class="menu-icon material-icons">home</span>
@@ -16,34 +19,48 @@
       </a>
     </li>
 
-<li>
-      <a routerLinkActive="active" routerLink="/ressources" (click)="toggleSubmenu()">
-        <span class="menu-icon material-icons">ressource</span>
-        <span class="menu-text">ressource</span>
-        <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isSubmenuOpen }">
-          <mat-icon>{{ isSubmenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+    <!-- Ressources Submenu -->
+    <li>
+      <a routerLinkActive="active" (click)="toggleRessourceSubmenu()">
+        <span class="menu-icon material-icons">folder</span>
+        <span class="menu-text">Ressource</span>
+        <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isRessourceSubmenuOpen }">
+          <mat-icon>{{ isRessourceSubmenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
         </span>
       </a>
-           <ul *ngIf="isSubmenuOpen" class="sub-menu">
+      <ul *ngIf="isRessourceSubmenuOpen" class="sub-menu">
         <li>
           <a routerLink="/add-ressource" routerLinkActive="active">
-            <span class="menu-icon material-icons">ressource</span>
-            <span class="menu-text">AddRessource</span>
+            <span class="menu-icon material-icons">add</span>
+            <span class="menu-text">Add Ressource</span>
           </a>
         </li>
-
       </ul>
     </li>
 
-
-
-
-
-
-
-
-
-
-
+    <!-- Groupes Submenu -->
+    <li>
+      <a routerLinkActive="active" (click)="toggleUserSubmenu()">
+        <span class="menu-icon material-icons">group</span>
+        <span class="menu-text">Groupes</span>
+        <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isUserSubmenuOpen }">
+          <mat-icon>{{ isUserSubmenuOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        </span>
+      </a>
+      <ul *ngIf="isUserSubmenuOpen" class="sub-menu">
+        <li>
+          <a routerLink="/create-study-group" routerLinkActive="active">
+            <span class="menu-icon material-icons">group_add</span>
+            <span class="menu-text">Créer un Groupe</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/join-study-group" routerLinkActive="active">
+            <span class="menu-icon material-icons">group</span>
+            <span class="menu-text">Rejoindre un Groupe</span>
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </div>
