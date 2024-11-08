@@ -16,11 +16,11 @@
       <div class="col-sm-2 col-md-2 col-lg-2">
         <label >description Ressource</label>
         <input type="text" [(ngModel)]= "currentRessource.description" name="descriptionressource" class="form-control">
-        </div>
+        </div><!--
         <div class="col-sm-4 col-md-4 col-lg-4">
         <label >Date création</label>
         <input type="date" [ngModel]= "currentRessource.creeLe | date: 'yyyy-MM-dd'" (ngModelChange)=" currentRessource.creeLe= $event" name="dateCreation" class="form-control">
-        </div>
+        </div>-->
         <div class="mt-2">
         <button type="submit" (click)="updateRessource(currentRessource)"class="btn btn-success">Update</button>
 

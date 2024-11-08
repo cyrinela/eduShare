@@ -62,8 +62,11 @@ export class RessourcesComponent implements OnInit {
       this.chargerRessources();
 
       });*/
+
       this.loadRessources();
       this.chargerRessources();
+      /*this.loadRessources();
+      this.chargerRessources();*/
   }
 
   chargerRessources(){
