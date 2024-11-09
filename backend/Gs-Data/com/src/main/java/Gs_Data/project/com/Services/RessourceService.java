@@ -37,6 +37,7 @@ public class RessourceService {
     public Ressource findById(Long id) {
         return ressourceRepository.findById(id).orElse(null);
     }
+
     public boolean Modify(Long id, Ressource ressource) {
         Ressource r = findById(id);
         if (r != null) {

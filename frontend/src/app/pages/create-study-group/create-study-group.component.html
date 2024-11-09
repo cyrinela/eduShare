@@ -12,11 +12,18 @@
       <input type="text" id="groupDescription" [(ngModel)]="groupDescription" name="groupDescription" class="form-control" required>
     </div>
 
+    <button type="submit" class="btn btn-primary">Créer le groupe</button>
+
     <div class="form-group">
       <label for="groupCode">Code du groupe</label>
-      <input type="text" id="groupCode" [(ngModel)]="groupCode" name="groupCode" class="form-control" required>
+      <div class="d-flex">
+        <input type="text" id="groupCode" [(ngModel)]="groupCode" name="groupCode" class="form-control w-25 mr-10" readonly>
+
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" (click)="CopyToClipboard()">Copy code</button>
+        </div>
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Créer le groupe</button>
   </form>
 </div>

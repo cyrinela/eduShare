@@ -5,20 +5,17 @@ import Gs_Data.project.com.Repositories.StudyGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @Service
 public class StudyGroupService {
-
-    private final StudyGroupRepository studyGroupRepository;
-
     @Autowired
-    public StudyGroupService(StudyGroupRepository studyGroupRepository) {
-        this.studyGroupRepository = studyGroupRepository;
-    }
+    private StudyGroupRepository studyGroupRepository;
 
     // Créer un groupe
     public StudyGroup createGroup(StudyGroup group) {
+        group.setCode(GenerateCode());
         return studyGroupRepository.save(group);
     }
 
@@ -28,10 +25,18 @@ public class StudyGroupService {
     }
 
     // Rejoindre un groupe
-    public StudyGroup joinGroup(Long groupId, Long userId) {
+    public boolean joinGroup(Long groupId,String code,Long userId) {
         StudyGroup group = studyGroupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Groupe non trouvé"));
-        group.setUserId(userId);  // Logique pour ajouter un utilisateur (ou membre) au groupe
-        return studyGroupRepository.save(group);
+        if (group.getCode().matches(code)) {
+            return true;
+        }
+        return false;
+    }
+
+    private String GenerateCode() {
+        SecureRandom generator = new SecureRandom();
+        Long code = generator.nextLong();
+        return Long.toHexString(code).substring(0,10);
     }
 }

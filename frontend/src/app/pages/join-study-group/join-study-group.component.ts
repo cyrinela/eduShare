@@ -8,11 +8,22 @@ import { StudyGroupService } from 'src/app/services/group/study-group.service'; 
 })
 export class JoinStudyGroupComponent implements OnInit {
   groups: any[] = [];  // Tableau pour stocker les groupes
+  modalOpen = false;
+  GroupCode: string = '';
 
   constructor(private studyGroupService: StudyGroupService) {}
 
   ngOnInit(): void {
     this.getGroups();  // Récupérer les groupes lors de l'initialisation
+  }
+
+  // Functions to open/close the modal
+  openModal(): void {
+    this.modalOpen = true;
+  }
+
+  closeModal(): void {
+    this.modalOpen = false;
   }
 
   // Méthode pour récupérer les groupes
@@ -26,8 +37,12 @@ export class JoinStudyGroupComponent implements OnInit {
 
   // Méthode pour rejoindre un groupe
   joinGroup(groupId: number) {
-    const userId = 1;  // ID de l'utilisateur, à remplacer selon la logique d'authentification
-    this.studyGroupService.joinGroup(groupId, userId).subscribe(response => {
+    const userId = "1";// ID de l'utilisateur, à remplacer selon la logique d'authentification
+    let FormDataBody = new FormData();
+    FormDataBody.append("userId",userId);
+    FormDataBody.append("code",this.GroupCode);
+
+    this.studyGroupService.joinGroup(groupId, FormDataBody).subscribe(response => {
       console.log('Groupe rejoint avec succès:', response);
       // Afficher une notification ou rediriger si nécessaire
     }, error => {

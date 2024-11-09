@@ -13,9 +13,9 @@ export class RessourcesComponent implements OnInit {
 
   constructor(private ressourceService: RessourceService) {}
 
-  ngOnInit(): void {
+ngOnInit(): void {
     this.loadRessources();  // Chargement des ressources à l'initialisation
-  }
+}
 
   // Charge les ressources depuis le service
   loadRessources(): void {
@@ -32,7 +32,7 @@ export class RessourcesComponent implements OnInit {
   }
 
   // Supprime une ressource
-  supprimerRessource(p: Ressource): void {
+supprimerRessource(p: Ressource): void {
     let conf = confirm('Etes-vous sûr de vouloir supprimer cette ressource ?');
     if (conf) {
       this.ressourceService.supprimerRessource(p.id).subscribe({
@@ -52,24 +52,35 @@ export class RessourcesComponent implements OnInit {
         },
       });
     }
-  }
+}
 
   // Télécharge le fichier associé à une ressource
-  downloadRessourceFile(id: number): void {
+downloadRessourceFile(id: number): void {
     this.ressourceService.downloadFile(id).subscribe({
       next: (blob) => {
-        // Création de l'URL pour le fichier blob
-        const url = window.URL.createObjectURL(blob);
-        // Création d'un lien pour le téléchargement
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'ressource.pdf'; // Choisissez un nom de fichier ici
-        link.click();
-        window.URL.revokeObjectURL(url); // Nettoyer l'URL après téléchargement
+        let FileName:any;
+        // get meta data de fichier
+        this.ressourceService.consulterRessource(id).subscribe({
+          next: (data) => {
+            FileName = data.fileMetaData.fileName;
+
+            // Création de l'URL pour le fichier blob
+            const url = window.URL.createObjectURL(blob);
+            // Création d'un lien pour le téléchargement
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = FileName;
+            link.click();
+            window.URL.revokeObjectURL(url); // supprimer l'URL après téléchargement
+          },
+          error: (err) => {
+            console.error('Error fetching MetaData:', err);
+          },
+        })
       },
       error: (err) => {
         console.error('Échec du téléchargement du fichier:', err);
-        alert('Échec du téléchargement du fichier.');  // Message d'erreur en cas d'échec
+        alert('Échec du téléchargement du fichier.');
       },
     });
   }

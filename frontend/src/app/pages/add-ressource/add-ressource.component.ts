@@ -41,19 +41,19 @@ export class AddRessourceComponent implements OnInit {
       });
       }*/
 
-  // Method to handle file input change
-  onFileChange(event: Event) {
+// Method to handle file input change
+onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0]; // Get the selected file
     }
-  }
+}
 
 
 
 
   /****** */
-  addRessource() {
+addRessource() {
     if (this.selectedFile) {
         console.log('Resource to add:', this.newRessource);
         console.log('Selected file:', this.selectedFile);

@@ -74,3 +74,17 @@ h2 {
 .join-button:hover {
   background-color: #643A6B;
 }
+
+.modal {
+  position: fixed;
+  top: 20%;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  outline: 0;
+}
+
+.modal.show {
+  display: block;
+}

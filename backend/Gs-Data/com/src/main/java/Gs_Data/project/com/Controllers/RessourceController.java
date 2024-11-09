@@ -1,9 +1,6 @@
 package Gs_Data.project.com.Controllers;
 
-import Gs_Data.project.com.Entities.Commentaire;
 import Gs_Data.project.com.Entities.Ressource;
-import Gs_Data.project.com.Repositories.FileMetaDataRepository;
-import Gs_Data.project.com.Repositories.RessourceRepository;
 import Gs_Data.project.com.Services.RessourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import java.util.Map;
-import java.util.HashMap;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class RessourceController {
     @Autowired
     private RessourceService ressourceService;
-    @Autowired
-    private RessourceRepository ressourceRepository;
-    @Autowired
-    private FileMetaDataRepository fileMetaDataRepository;
 
     @GetMapping
     public List<Ressource> getAll() {
@@ -95,24 +81,6 @@ public class RessourceController {
     }
 
 
-
-    public boolean save(Ressource ressource) throws IOException {
-        try {
-            // If FileMetaData exists, save it
-            if (ressource.getFileMetaData() != null) {
-                // Save the FileMetaData in the database
-                fileMetaDataRepository.save(ressource.getFileMetaData());
-            }
-
-            // Save the Ressource object
-            ressourceRepository.save(ressource);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
     @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
                                          @RequestPart(name = "file") MultipartFile file) throws IOException {
@@ -130,27 +98,5 @@ public class RessourceController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
         }
-    }
-
-
-    // Assuming this method saves the file to a specified directory
-    private String saveFile(MultipartFile file) throws IOException {
-        // Define the directory where files will be saved
-        Path uploadDirectory = Path.of("uploads");
-        if (!Files.exists(uploadDirectory)) {
-            Files.createDirectories(uploadDirectory);
-        }
-
-        // Get the original file name
-        String fileName = file.getOriginalFilename();
-
-        // Define the target location for the file
-        Path targetLocation = uploadDirectory.resolve(fileName);
-
-        // Copy the file to the target location
-        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-        // Return the file name or path for reference
-        return fileName;
     }
 }
