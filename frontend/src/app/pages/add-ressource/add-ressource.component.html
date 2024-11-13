@@ -24,7 +24,16 @@
         <div class="col-sm-4 col-md-4 col-lg-4">
           <label>Upload File</label>
           <input type="file" (change)="onFileChange($event)" class="form-control" required>
-        </div>
+        </div><br>
+
+        
+<!-- Non-Cancellable Upload In Progress Modal -->
+<div *ngIf="!FileUploaded" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded shadow-lg text-center">
+    <h2 class="text-lg font-semibold mb-4">File is uploading...</h2>
+    <p>Please wait until the upload completes.</p>
+  </div>
+</div>
 
         <!-- <div class="col-sm-4 col-md-4 col-lg-4">
           <label>Categorie</label>

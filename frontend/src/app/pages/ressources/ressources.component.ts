@@ -84,4 +84,11 @@ downloadRessourceFile(id: number): void {
       },
     });
   }
+
+  getFileSize(ByteSize:number):String {
+    if ((ByteSize / Math.pow(1024,2)) >= 1) {
+      return (ByteSize / Math.pow(1024,2)).toFixed(2) + " MB";
+    }
+    return (ByteSize / 1024).toFixed(2) + " KB";
+  }
 }

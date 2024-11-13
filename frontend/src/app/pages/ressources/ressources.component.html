@@ -3,8 +3,11 @@
       <div class="card-body">
           <h5 class="card-title" style="font-size: large;font-weight: bold;">nom de ressource:     {{ item.nom }}</h5>
           <p class="card-text">{{ item.description }}</p>
-        <td> created:   {{item.creeLe | date:'dd/MM/yyyy'}}</td>
-          <td>fileType:    {{item.fileMetaData.fileName}}</td>
+        <tr> created:   {{item.creeLe | date:'dd/MM/yyyy'}}</tr>
+          <tr>fileType:    {{item.fileMetaData.fileName}}</tr>
+        <tr>size : 
+          {{getFileSize(+item.fileMetaData.fileSize)}}
+        </tr><br>
 
 
          <div>
