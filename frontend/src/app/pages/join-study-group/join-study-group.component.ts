@@ -15,6 +15,7 @@ export class JoinStudyGroupComponent implements OnInit {
     this.getGroups();  // Récupérer les groupes lors de l'initialisation
   }
 
+
   // Méthode pour récupérer les groupes
   getGroups() {
     this.studyGroupService.getAllGroups().subscribe(response => {
@@ -26,11 +27,17 @@ export class JoinStudyGroupComponent implements OnInit {
 
   // Méthode pour rejoindre un groupe
   joinGroup(groupId: number) {
-    const userId = 1;  // ID de l'utilisateur, à remplacer selon la logique d'authentification
-    this.studyGroupService.joinGroup(groupId, userId).subscribe(response => {
+    const userId = "1";// ID de l'utilisateur, à remplacer selon la logique d'authentification
+    let GroupCode = (document.getElementById(groupId.toString()) as HTMLInputElement).value;
+    let FormDataBody = new FormData();
+    FormDataBody.append("userId",userId);
+    FormDataBody.append("code",GroupCode);
+
+    this.studyGroupService.joinGroup(groupId, FormDataBody).subscribe(response => {
       console.log('Groupe rejoint avec succès:', response);
-      // Afficher une notification ou rediriger si nécessaire
+      alert("Groupe rejoint avec succès");
     }, error => {
+      alert("Erreur lors du rejoint du groupe");
       console.error('Erreur lors du rejoint du groupe:', error);
     });
   }

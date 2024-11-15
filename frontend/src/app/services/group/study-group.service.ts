@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class StudyGroupService {
-  private apiUrl = 'http://localhost:8100/api/groups'; // L'URL de ton backend
+  private apiUrl = 'http://localhost:8100/groups';
 
   constructor(private http: HttpClient) {}
 
   // Méthode pour créer un groupe
-  createGroup(group: { name: string; description: string; code: string }): Observable<any> {
+  createGroup(group: { name: string; description: string}): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/create`, group);
   }
    // Méthode pour récupérer tous les groupes
@@ -19,8 +19,12 @@ export class StudyGroupService {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
 
+  getMyGroups(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/mygroups`);
+  }
+
   // Méthode pour rejoindre un groupe
-  joinGroup(groupId: number, userId: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/join/${groupId}?userId=${userId}`, {});
+  joinGroup(groupId: number, body: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/join/${groupId}`, body);
   }
 }

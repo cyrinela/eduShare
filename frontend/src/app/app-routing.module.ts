@@ -9,6 +9,7 @@ import { TimetableComponent } from './pages/timetable/timetable.component';
 import { UpdateRessourceComponent } from './pages/update-ressource/update-ressource.component';
 import { CreateStudyGroupComponent } from './pages/create-study-group/create-study-group.component';
 import { JoinStudyGroupComponent } from './pages/join-study-group/join-study-group.component';
+import { MyGroupsComponent } from './pages/my-groups/my-groups.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'create-study-group', component: CreateStudyGroupComponent },
   { path: 'join-study-group', component: JoinStudyGroupComponent },
   { path: '', redirectTo: '/join-study-group', pathMatch: 'full' },
-  { path: 'groupes', component: JoinStudyGroupComponent },  // Route pour afficher la liste des groupes
+  { path: 'my-groups', component: MyGroupsComponent },  // Route pour afficher la liste des groupes
   { path: '**', redirectTo: '' }  // Redirection si l'URL n'existe pas
 ];
 @NgModule({

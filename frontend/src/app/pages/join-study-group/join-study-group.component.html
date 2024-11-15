@@ -9,7 +9,22 @@
         <p class="card-text">
           <span class="field-label">Description :</span> {{ group.description }}
         </p>
-        <button (click)="joinGroup(group.id)" class="btn btn-success join-button">Rejoindre ce groupe</button>
+        <!--Trigeer button-->
+        <button class="btn btn-success join-button" (click)="joinGroup(group.id)">Rejoindre ce groupe</button>
+      </div>
+
+      <div class="modal" tabindex="-1" style="display: block; position: sticky;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Enter Information</h5>
+            </div>
+            <div class="modal-body">
+              <p>Saisir le code pour rejoindre cette groupe</p>
+              <input type="text" [attr.id]="group.id" class="form-control" placeholder="code">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

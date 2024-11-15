@@ -19,20 +19,19 @@ export class CreateStudyGroupComponent {
 
   // Fonction pour créer un groupe
   createGroup() {
-    if (this.groupName && this.groupDescription && this.groupCode) {
+    if (this.groupName && this.groupDescription) {
       const newGroup = {
         name: this.groupName,
-        description: this.groupDescription,
-        code: this.groupCode
+        description: this.groupDescription
       };
 
       // Appel du service pour envoyer les données au backend
       this.studyGroupService.createGroup(newGroup).subscribe(
         response => {
-          console.log('Groupe créé avec succès:', response);
-          
-          // Redirection vers la liste des groupes après création
-          this.router.navigate(['/groupes']); // Remplacez "/groupes" par le chemin de votre liste de groupes
+          console.log('Groupe créé avec succès');
+          alert("Groupe créé avec succès");
+
+          this.groupCode = response.code;
         },
         error => {
           console.error('Erreur lors de la création du groupe:', error);
@@ -41,5 +40,11 @@ export class CreateStudyGroupComponent {
     } else {
       console.log('Tous les champs sont obligatoires');
     }
+  }
+
+   CopyToClipboard() {
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(this.groupCode);
+    alert("Code copied");
   }
 }
