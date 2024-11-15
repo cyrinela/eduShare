@@ -10,26 +10,18 @@
           <span class="field-label">Description :</span> {{ group.description }}
         </p>
         <!--Trigeer button-->
-        <button class="btn btn-success join-button" (click)="openModal()">Rejoindre ce groupe</button>
+        <button class="btn btn-success join-button" (click)="joinGroup(group.id)">Rejoindre ce groupe</button>
       </div>
 
-      <!-- Modal (Pop-up) -->
-      <div class="modal" tabindex="-1" [ngClass]="{'show': modalOpen}" style="display: block; position: sticky;" *ngIf="modalOpen">
+      <div class="modal" tabindex="-1" style="display: block; position: sticky;">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Enter Information</h5>
-              <button type="button" class="close" (click)="closeModal()">
-                <span>&times;</span>
-              </button>
             </div>
             <div class="modal-body">
               <p>Saisir le code pour rejoindre cette groupe</p>
-              <input type="text" [(ngModel)]="GroupCode" class="form-control" placeholder="code">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-              <button type="button" class="btn btn-primary" (click)="joinGroup(group.id)">Confirm</button>
+              <input type="text" [attr.id]="group.id" class="form-control" placeholder="code">
             </div>
           </div>
         </div>

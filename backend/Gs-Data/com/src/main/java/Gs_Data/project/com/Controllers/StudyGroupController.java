@@ -31,7 +31,13 @@ public class StudyGroupController {
     // Méthode pour récupérer tous les groupes
     @GetMapping("/all")
     public List<StudyGroup> getAllGroups() {
-        return studyGroupService.getAllGroups();
+        return studyGroupService.getUnjoinedGroups();
+    }
+
+    // Méthode pour récupérermygrou les groupes joinée
+    @GetMapping("/mygroups")
+    public List<StudyGroup> getJoinedGroups() {
+        return studyGroupService.getJoinedGroups();
     }
 
     // Méthode pour rejoindre un groupe

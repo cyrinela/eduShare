@@ -19,6 +19,10 @@ export class StudyGroupService {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
 
+  getMyGroups(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/mygroups`);
+  }
+
   // Méthode pour rejoindre un groupe
   joinGroup(groupId: number, body: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/join/${groupId}`, body);

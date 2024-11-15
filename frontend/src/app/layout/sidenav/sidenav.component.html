@@ -40,7 +40,7 @@
 
     <!-- Groupes Submenu -->
     <li>
-      <a routerLinkActive="active" (click)="toggleUserSubmenu()">
+      <a routerLinkActive="active" routerLink="/my-groups" (click)="toggleUserSubmenu()">
         <span class="menu-icon material-icons">group</span>
         <span class="menu-text">Groupes</span>
         <span class="sub-menu-icon" [ngClass]="{ 'sub-menu-open': isUserSubmenuOpen }">
