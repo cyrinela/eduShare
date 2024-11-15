@@ -1,0 +1,22 @@
+<div class="search-container">
+  <input [(ngModel)]="query" placeholder="Search by category or resource name" />
+  <button (click)="onSearch()">Search</button>
+</div>
+
+<div *ngIf="ressources.length === 0" class="no-resources">
+  <p>No resources found.</p>
+</div>
+
+<div class="data-container">
+  <div *ngFor="let item of ressources" class="card" [attr.id]="'item-' + item.id">
+    <div class="card-body">
+      <h5 class="card-title">Resource Name: {{ item.nom }}</h5>
+      <p class="card-text">{{ item.description }}</p>
+      <div class="card-info">
+        <span>Created: {{item.creeLe | date:'dd/MM/yyyy'}}</span>
+        <span>File Type: {{item.fileMetaData.fileName}}</span>
+        <span>Category: {{item.categorie?.nom}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Ressource } from 'src/app/model/ressource.model';
@@ -35,6 +35,8 @@ listeRessource(): Observable<Ressource[]>{
   listeCategories():Observable<Categorie[]>{
     return this.http.get<Categorie[]>(this.apiURL+"/cat");
     }
+
+
 
 
   ajouterRessource(reso: Ressource, file: File) {
@@ -125,6 +127,10 @@ downloadFile(id: number) {
     return this.http.get(url, {
       responseType: 'blob' // This is important to handle binary data
     });
+}
+searchRessources(query: string): Observable<any[]> {
+  const params = new HttpParams().set('query', query);
+  return this.http.get<any[]>(`${this.apiURL}/search`, { params });
 }
 
 }
