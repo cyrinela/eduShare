@@ -17,7 +17,7 @@ const httpOptions = {
 
 export class RessourceService {
   apiURL: string = 'http://localhost:8100/ressources';
- // apiURLCat: string = 'http://localhost:8100/categories';
+  apiURLCat: string = 'http://localhost:8100/categories';
 
 
   ressources: Ressource[] =[];
@@ -33,7 +33,7 @@ listeRessource(): Observable<Ressource[]>{
   return this.http.get<Ressource[]>(this.apiURL);
   }
   listeCategories():Observable<Categorie[]>{
-    return this.http.get<Categorie[]>(this.apiURL+"/cat");
+    return this.http.get<Categorie[]>(this.apiURLCat);
     }
 
 
