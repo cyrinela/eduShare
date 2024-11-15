@@ -112,4 +112,18 @@ public class RessourceService {
         }
         return null;
     }
+
+    public List<Ressource> searchResources(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return ressourceRepository.findAll();  // Return all if the query is empty
+        }
+
+        // Search resources by name or category name
+        List<Ressource> resourcesByName = ressourceRepository.findByNomStartingWithIgnoreCase(query);
+        List<Ressource> resourcesByCategory = ressourceRepository.findByCategorieNomStartingWithIgnoreCase(query);
+
+        // Combine results (you could remove duplicates if necessary)
+        resourcesByName.addAll(resourcesByCategory);
+        return resourcesByName;
+    }
 }

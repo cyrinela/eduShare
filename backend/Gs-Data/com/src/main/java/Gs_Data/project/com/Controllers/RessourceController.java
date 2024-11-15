@@ -29,6 +29,12 @@ public class RessourceController {
     @Autowired
     private RessourceService ressourceService;
 
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Ressource>> searchResources(@RequestParam(required = false) String query) {
+        List<Ressource> resources = ressourceService.searchResources(query);
+        return ResponseEntity.ok(resources);
+    }
     @GetMapping
     public List<Ressource> getAll() {
         return ressourceService.findAll();
