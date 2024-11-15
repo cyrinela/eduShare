@@ -8,7 +8,7 @@ import { RessourceService } from '../../services/ressource.service';
 @Component({
   selector: 'app-add-ressource',
   templateUrl: './add-ressource.component.html',
-  styleUrl: './add-ressource.component.scss'
+  styleUrl: './add-ressource.component.css'
 })
 export class AddRessourceComponent implements OnInit {
   selectedFile: File | null = null;

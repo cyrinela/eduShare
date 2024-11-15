@@ -1,44 +1,39 @@
-
 <section class="text-gray-600 body-font">
-  <div class="container">
-    <div>
-    <h2>Ajouter un Produit :</h2>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="mb-4 text-center" style="color: #D989B5;font-size: xx-large;">Ajouter une Ressource</h2>
+      </div>
     </div>
-    <form >
-      <div hidden class="col-sm-2 col-md-2 col-lg-2">
-      <label >ID Ressource</label>
-      <input type="text" [(ngModel)]="newRessource.id" name="idressource" class="form-control">
+    <form>
+      <!-- ID Ressource caché -->
+      <div hidden class="form-group">
+        <label for="idressource" >ID Ressource</label>
+        <input type="text" [(ngModel)]="newRessource.id" name="idressource" class="form-control" id="idressource">
       </div>
-      <div class="col-sm-4 col-md-4 col-lg-4" >
-      <label >Nom de Ressource</label>
-      <input type="text"[(ngModel)]= "newRessource.nom" name="nomRessource" class="form-control">
+
+      <!-- Nom de la Ressource -->
+      <div class="form-group">
+        <label for="nomRessource" style="color: #790252;font-size: medium;">Nom de Ressource</label>
+        <input type="text" [(ngModel)]="newRessource.nom" name="nomRessource" class="form-control" id="nomRessource" placeholder="Entrez le nom de la ressource" required>
       </div>
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <label >Description</label>
-        <input type="text" [(ngModel)]= "newRessource.description" name="descriptionressource" class="form-control">
-        </div>
-       <!-- <div class="col-sm-4 col-md-4 col-lg-4">
-        <label >Date création</label>
-        <input type="date" [(ngModel)]= "newRessource.creeLe" name="dateCreation" class="form-control">
-        </div>-->
-        <div class="col-sm-4 col-md-4 col-lg-4">
-          <label>Upload File</label>
-          <input type="file" (change)="onFileChange($event)" class="form-control" required>
-        </div>
 
-        <!-- <div class="col-sm-4 col-md-4 col-lg-4">
-          <label>Categorie</label>
-          <select class="form-control form-control-lg" id="idCat" name="idCat" [(ngModel)]="newIdCat">
-           <option *ngFor="let cat of categories" [value]="cat.idCat" >
-           {{cat.nomCat}}
-          </option>
-          </select>
-          </div> -->
-        <div class="mt-2">
-        <button type="submit" (click)="addRessource()"class="btn btn-success">Ajouter</button>
-        </div>
-        </form>
-        </div>
+      <!-- Description -->
+      <div class="form-group">
+        <label for="descriptionressource" style="color: #790252;font-size: medium;">Description</label>
+        <input type="text" [(ngModel)]="newRessource.description" name="descriptionressource" class="form-control" id="descriptionressource" placeholder="Entrez une brève description" required>
+      </div>
 
-  </section>
+      <!-- Upload File -->
+      <div class="form-group">
+        <label for="uploadFile" style="color: #790252;font-size: medium;">Télécharger un fichier</label>
+        <input type="file" (change)="onFileChange($event)" class="form-control-file" id="uploadFile" required>
+      </div>
 
+      <!-- Bouton Ajouter -->
+      <div class="form-group text-center mt-3">
+        <button type="submit" (click)="addRessource()" class="btn btn-success">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</section>

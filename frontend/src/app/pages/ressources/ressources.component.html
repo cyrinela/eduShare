@@ -1,13 +1,22 @@
 <div class="data-container">
   <div *ngFor="let item of ressources" class="card" [attr.id]="'item-' + item.id">
       <div class="card-body">
-          <h5 class="card-title" style="font-size: large;font-weight: bold;">nom de ressource:     {{ item.nom }}</h5>
-          <p class="card-text">{{ item.description }}</p>
-        <td> created:   {{item.creeLe | date:'dd/MM/yyyy'}}</td>
-          <td>fileType:    {{item.fileMetaData.fileName}}</td>
+        <h5 class="card-title" style="font-size: large; font-weight: bold; color: #C23373;">
+          Nom de ressource: {{ item.nom }}
+        </h5>
+        <p class="card-text" style="font-size: medium;">
+          <span style="color: #790252;">Description:</span> {{ item.description }}
+        </p>
+        <p class="card-text" style="font-size: medium;">
+          <span style="color: #790252;">Created:</span> {{ item.creeLe | date:'dd/MM/yyyy' }}
+        </p>
+        <p class="card-text" style="font-size: medium;">
+          <span style="color: #790252;">File Name:</span> {{ item.fileMetaData.fileName }}
+        </p>
+        
+    
 
-
-         <div>
+         <div class="btn">
           <a class="btn btn-danger" (click)="supprimerRessource(item)" style="margin-right: 18px;">Delete</a>
           <a class="btn btn-success" [routerLink]="['/updateRessource',item.id]" style="margin-right: 18px;">Edit</a>
           <a class="btn btn-secondary"(click)="downloadRessourceFile(item.id)">Download</a>

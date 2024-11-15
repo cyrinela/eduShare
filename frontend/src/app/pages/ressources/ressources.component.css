@@ -1,0 +1,119 @@
+/* Style global pour la liste des cartes */
+.data-container {
+    padding: 20px;
+    background-color: #f8f9fa; /* Fond clair pour le conteneur */
+  }
+  
+  /* Disposition en grille (3 cartes par ligne sur grands écrans) */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacement entre les cartes */
+  }
+  
+  .col-md-4 {
+    flex: 1 1 calc(33.33% - 20px); /* 3 cartes par ligne avec un petit espacement */
+    max-width: calc(33.33% - 20px);
+  }
+  
+  /* Chaque carte */
+  .card {
+    border-radius: 10px; /* Coins arrondis */
+    border: 1px solid #ddd; /* Bordure légère */
+    transition: all 0.3s ease; /* Transition pour l'hover */
+    margin-bottom: 20px; /* Espacement en bas de chaque carte */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Légère élévation au survol */
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Ombre pour l'effet hover */
+  }
+  
+  /* Corps de la carte */
+  .card-body {
+    padding: 20px;
+    background-color: #fff; /* Fond blanc pour chaque carte */
+    color: #333; /* Texte sombre */
+  }
+  
+  .card-title {
+    font-size: 1.5rem; /* Taille de police du titre */
+    font-weight: bold;
+    color: #79155B; /* Couleur bleue pour le titre */
+    margin-bottom: 10px;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555; /* Texte gris clair pour la description */
+    margin-bottom: 15px;
+  }
+  
+  /* Détails (date et type de fichier) */
+  .card p {
+    font-size: 0.9rem;
+    color: #6c757d; /* Couleur gris clair pour les informations secondaires */
+  }
+  
+  /* Espacement et alignement des boutons */
+  .d-flex {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  button, a.btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+  }
+  
+  /* Bouton Supprimer */
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+  /* Bouton Modifier */
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+  }
+  
+  /* Bouton Télécharger */
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  @media (max-width: 768px) {
+    .col-md-4 {
+      flex: 1 1 100%; /* Sur les petits écrans, chaque carte occupe toute la largeur */
+      max-width: 100%;
+    }
+  }
+  .btn{
+    margin-top: 10px;
+  }
+  .custom-title {
+    color: #C23373;
+    font-size: large;
+    font-weight: bold;
+  }

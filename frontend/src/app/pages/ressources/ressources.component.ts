@@ -5,7 +5,7 @@ import { RessourceService } from '../../services/ressource.service';
 @Component({
   selector: 'app-ressources',
   templateUrl: './ressources.component.html',
-  styleUrls: ['./ressources.component.scss'],  // Correction ici
+  styleUrls: ['./ressources.component.css'],  // Correction ici
 })
 export class RessourcesComponent implements OnInit {
   ressources: Ressource[] = [];  // Initialisation de ressources pour éviter des erreurs
