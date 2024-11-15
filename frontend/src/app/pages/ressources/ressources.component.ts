@@ -14,7 +14,8 @@ export class RessourcesComponent implements OnInit {
   constructor(private ressourceService: RessourceService) {}
 
 ngOnInit(): void {
-    this.loadRessources();  // Chargement des ressources à l'initialisation
+    this.loadRessources();
+    this.chargerRessources(); // Chargement des ressources à l'initialisation
 }
 
   // Charge les ressources depuis le service
@@ -30,6 +31,14 @@ ngOnInit(): void {
       }
     );
   }
+
+  //charger les ressources
+  chargerRessources(){
+    this.ressourceService.listeRessource().subscribe(reso => {
+    console.log(reso);
+    this.ressources = reso;
+    });
+    }
 
   // Supprime une ressource
 supprimerRessource(p: Ressource): void {

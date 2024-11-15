@@ -14,8 +14,12 @@
         <p class="card-text" style="font-size: medium;">
           <span style="color: #790252;">File Name:</span> {{ item.fileMetaData.fileName }}
         </p>
-        
-    
+        <p class="card-text" style="font-size: medium;">
+          <span style="color: #790252;">Categorie:</span> {{ item.categorie?.nom }}
+        </p>
+
+
+
 
          <div class="btn">
           <a class="btn btn-danger" (click)="supprimerRessource(item)" style="margin-right: 18px;">Delete</a>

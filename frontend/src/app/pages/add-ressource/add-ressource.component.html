@@ -9,7 +9,7 @@
       <!-- ID Ressource caché -->
       <div hidden class="form-group">
         <label for="idressource" >ID Ressource</label>
-        <input type="text" [(ngModel)]="newRessource.id" name="idressource" class="form-control" id="idressource">
+        <input type="text" [(ngModel)]="newRessource.id" name="idressource" class="form-control" id="idressource" required>
       </div>
 
       <!-- Nom de la Ressource -->
@@ -22,7 +22,17 @@
       <div class="form-group">
         <label for="descriptionressource" style="color: #790252;font-size: medium;">Description</label>
         <input type="text" [(ngModel)]="newRessource.description" name="descriptionressource" class="form-control" id="descriptionressource" placeholder="Entrez une brève description" required>
+
       </div>
+        <!-- Categorie -->
+        <div class="form-group">
+        <label for="category"  style="color: #790252;font-size: medium;">Category</label>
+        <select  id="idCat" name="idCat" [(ngModel)]="newIdCat" class="form-select" required>
+          <option value="" disabled selected>Select a category</option>
+          <option *ngFor="let cat of categories" [value]="cat.id" >{{cat.nom}}</option>
+        </select>
+      </div>
+      <br>
 
       <!-- Upload File -->
       <div class="form-group">

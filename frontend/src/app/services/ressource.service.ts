@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Ressource } from 'src/app/model/ressource.model';
+import { Categorie } from '../model/categorie.model';
 
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -20,7 +21,7 @@ export class RessourceService {
 
 
   ressources: Ressource[] =[];
- //categories! : Categorie[];
+ categories! : Categorie[];
 
   constructor(private http : HttpClient) {
 
@@ -31,7 +32,9 @@ export class RessourceService {
 listeRessource(): Observable<Ressource[]>{
   return this.http.get<Ressource[]>(this.apiURL);
   }
-
+  listeCategories():Observable<Categorie[]>{
+    return this.http.get<Categorie[]>(this.apiURL+"/cat");
+    }
 
 
   ajouterRessource(reso: Ressource, file: File) {
@@ -42,12 +45,12 @@ listeRessource(): Observable<Ressource[]>{
             // Append the file
             formData.append('file', file);
 
-            
-            return this.http.post(`${this.apiURL}/add`, formData, 
-              { 
+
+            return this.http.post(`${this.apiURL}/add`, formData,
+              {
                 reportProgress: true,
                 observe: 'events',
-                
+
               });
   }
 
@@ -58,8 +61,8 @@ uploadFile(file: File, fileUrlId: string): Observable<any> {
   formData.append('file', file);
   formData.append('fileUrlId', fileUrlId); // Append the resource ID or another identifier
 
-  return this.http.post(`${this.apiURL}/upload`, formData, 
-    { 
+  return this.http.post(`${this.apiURL}/upload`, formData,
+    {
       responseType: 'text',
     });
 }

@@ -1,31 +1,43 @@
-
 <section class="text-gray-600 body-font">
-  <div class="container">
-    <div>
-    <h2>Update un Ressource :</h2>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="mb-4 text-center" style="color: #D989B5;font-size: xx-large;">Update une Ressource</h2>
+      </div>
     </div>
-    <form >
-      <div  class="col-sm-2 col-md-2 col-lg-2">
-      <label >ID Ressource</label>
-      <input ReadOnly type="text" [(ngModel)]="currentRessource.id" name="idressource" class="form-control">
+    <form>
+      <!-- ID Ressource caché -->
+      <div hidden class="form-group">
+        <label for="idressource" >ID Ressource</label>
+        <input type="text" [(ngModel)]="currentRessource.id" name="idressource" class="form-control" id="idressource" required>
       </div>
-      <div class="col-sm-4 col-md-4 col-lg-4" >
-      <label >Nom Ressource</label>
-      <input type="text"[(ngModel)]= "currentRessource.nom" name="nomRessource" class="form-control">
+
+      <!-- Nom de la Ressource -->
+      <div class="form-group">
+        <label for="nomRessource" style="color: #790252;font-size: medium;">Nom de Ressource</label>
+        <input type="text" [(ngModel)]="currentRessource.nom" name="nomRessource" class="form-control" id="nomRessource" placeholder="Entrez le nom de la ressource" required>
       </div>
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <label >description Ressource</label>
-        <textarea type="text" [(ngModel)]= "currentRessource.description" name="descriptionressource" class="form-control"></textarea>
-        </div><!--
-        <div class="col-sm-4 col-md-4 col-lg-4">
-        <label >Date création</label>
-        <input type="date" [ngModel]= "currentRessource.creeLe | date: 'yyyy-MM-dd'" (ngModelChange)=" currentRessource.creeLe= $event" name="dateCreation" class="form-control">
-        </div>-->
-        <div class="mt-2">
-        <button type="submit" (click)="updateRessource(currentRessource)"class="btn btn-success">Update</button>
 
-        </div>
-        </form>
-        </div>
+      <!-- Description -->
+      <div class="form-group">
+        <label for="descriptionressource" style="color: #790252;font-size: medium;">Description</label>
+        <input type="text" [(ngModel)]="currentRessource.description" name="descriptionressource" class="form-control" id="descriptionressource" placeholder="Entrez une brève description" required>
 
-  </section>
+      </div>
+        <!-- Categorie -->
+        <div class="form-group">
+        <label for="category"  style="color: #790252;font-size: medium;">Category</label>
+        <select  id="idCat" name="idCat" [(ngModel)]="updatedCatId" class="form-select" required>
+          <option value="" disabled selected>Select a category</option>
+          <option *ngFor="let cat of categories" [value]="cat.id" >{{cat.nom}}</option>
+        </select>
+      </div>
+      <br>
+
+      <!-- Bouton Ajouter -->
+      <div class="form-group text-center mt-3">
+        <button type="submit" (click)="updateRessource(currentRessource)" class="btn btn-success">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</section>
