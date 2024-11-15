@@ -36,7 +36,10 @@ listeRessource(): Observable<Ressource[]>{
     return this.http.get<Categorie[]>(this.apiURL+"/cat");
     }
 
-
+    searchRessources(query: string): Observable<any[]> {
+      const params = new HttpParams().set('query', query);
+      return this.http.get<any[]>(`${this.apiURL}/search`, { params });
+    }
 
 
   ajouterRessource(reso: Ressource, file: File) {
@@ -127,10 +130,6 @@ downloadFile(id: number) {
     return this.http.get(url, {
       responseType: 'blob' // This is important to handle binary data
     });
-}
-searchRessources(query: string): Observable<any[]> {
-  const params = new HttpParams().set('query', query);
-  return this.http.get<any[]>(`${this.apiURL}/search`, { params });
 }
 
 }
