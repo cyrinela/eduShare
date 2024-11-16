@@ -1,6 +1,6 @@
 <div class="search-container">
-  <input [(ngModel)]="query" placeholder="Search by category or resource name" />
-  <button (click)="onSearch()">Search</button>
+  <input [(ngModel)]="query" placeholder="Search by category or resource name" class="search-input" />
+  <button (click)="onSearch()" class="search-button">Search</button>
 </div>
 
 <div *ngIf="ressources.length === 0" class="no-resources">
@@ -13,14 +13,13 @@
       <h5 class="card-title">Resource Name: {{ item.nom }}</h5>
       <p class="card-text">{{ item.description }}</p>
       <div class="card-info">
-        <span>Created: {{item.creeLe | date:'dd/MM/yyyy'}}</span>
-        <span>File Type: {{item.fileMetaData.fileName}}</span>
-        <span>Category: {{item.categorie?.nom}}</span>
+        <span>Created: {{ item.creeLe | date:'dd/MM/yyyy' }}</span>
+        <span>File Type: {{ item.fileMetaData.fileName }}</span>
+        <span>Category: {{ item.categorie?.nom }}</span>
       </div>
     </div>
     <div class="btn">
-      <a class="btn btn-secondary"(click)="downloadRessourceFile(item.id)">Download</a>
-
+      <a class="btn btn-secondary" (click)="downloadRessourceFile(item.id)">Download</a>
     </div>
   </div>
 </div>
