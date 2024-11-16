@@ -88,3 +88,29 @@ h2 {
 .modal.show {
   display: block;
 }
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Permet de créer des lignes avec plusieurs cartes */
+  gap: 15px; /* Espacement entre les cartes */
+}
+
+.card {
+  flex: 1 1 calc(33.33% - 15px); /* Chaque carte occupe un tiers de la ligne, avec un écart de 15px */
+  box-sizing: border-box;
+  min-width: 280px; /* Taille minimale de chaque carte */
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 calc(50% - 15px); /* Pour les écrans moyens, 2 cartes par ligne */
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex: 1 1 100%; /* Pour les petits écrans, une carte par ligne */
+  }
+}
+

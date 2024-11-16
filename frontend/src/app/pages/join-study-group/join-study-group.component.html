@@ -9,7 +9,7 @@
         <p class="card-text">
           <span class="field-label">Description :</span> {{ group.description }}
         </p>
-        <!--Trigeer button-->
+        <!-- Trigger button -->
         <button class="btn btn-success join-button" (click)="joinGroup(group.id)">Rejoindre ce groupe</button>
       </div>
 
@@ -20,7 +20,7 @@
               <h5 class="modal-title">Enter Information</h5>
             </div>
             <div class="modal-body">
-              <p>Saisir le code pour rejoindre cette groupe</p>
+              <p>Saisir le code pour rejoindre ce groupe</p>
               <input type="text" [attr.id]="group.id" class="form-control" placeholder="code">
             </div>
           </div>
