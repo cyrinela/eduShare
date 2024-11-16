@@ -26,10 +26,12 @@ import { MainComponent } from './main/main.component';
 import { AddRessourceComponent } from './pages/add-ressource/add-ressource.component';
 import { CreateStudyGroupComponent } from './pages/create-study-group/create-study-group.component';
 import { JoinStudyGroupComponent } from './pages/join-study-group/join-study-group.component';
+import { ListeCategoriesComponent } from './pages/liste-categories/liste-categories.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RechercheCategorieRessourceComponent } from './pages/recherche-categorie-ressource/recherche-categorie-ressource.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component'; // Import FormsModule
 import { TimetableComponent } from './pages/timetable/timetable.component';
+import { UpdateCategorieComponent } from './pages/update-categorie/update-categorie.component';
 import { UpdateRessourceComponent } from './pages/update-ressource/update-ressource.component';
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { UpdateRessourceComponent } from './pages/update-ressource/update-ressou
     RessourcesComponent,
     AddRessourceComponent,
     UpdateRessourceComponent,
-    RechercheCategorieRessourceComponent
+    RechercheCategorieRessourceComponent,
+    ListeCategoriesComponent,
+    UpdateCategorieComponent
     ],
   imports: [
     BrowserModule,

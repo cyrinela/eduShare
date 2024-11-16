@@ -3,6 +3,7 @@ package Gs_Data.project.com.Controllers;
 import Gs_Data.project.com.Entities.Categorie;
 import Gs_Data.project.com.Services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +41,13 @@ public class CategorieController {
         return ResponseEntity.status(404).body("error occurred");
     }
 
-    @PostMapping(path = "/add")
+    /*@PostMapping(path = "/add")
     public Categorie create(@RequestBody Categorie categorie) {
         return categorieService.save(categorie);
+    }*/
+    @PostMapping
+    public ResponseEntity<Categorie> addCategory(@RequestBody Categorie categorie) {
+        Categorie createdCategory = categorieService.save(categorie);
+        return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 }

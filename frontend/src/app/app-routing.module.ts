@@ -5,11 +5,13 @@ import { HomeComponent } from './home/home.component';
 import { AddRessourceComponent } from './pages/add-ressource/add-ressource.component';
 import { CreateStudyGroupComponent } from './pages/create-study-group/create-study-group.component';
 import { JoinStudyGroupComponent } from './pages/join-study-group/join-study-group.component';
+import { ListeCategoriesComponent } from './pages/liste-categories/liste-categories.component';
 import { MyGroupsComponent } from './pages/my-groups/my-groups.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RechercheCategorieRessourceComponent } from './pages/recherche-categorie-ressource/recherche-categorie-ressource.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component';
 import { TimetableComponent } from './pages/timetable/timetable.component';
+import { UpdateCategorieComponent } from './pages/update-categorie/update-categorie.component';
 import { UpdateRessourceComponent } from './pages/update-ressource/update-ressource.component';
 
 const routes: Routes = [
@@ -22,6 +24,8 @@ const routes: Routes = [
   {path: "add-ressource", component : AddRessourceComponent},
   {path: "updateRessource/:id", component : UpdateRessourceComponent},
   {path: "rechercheCategorieRessource", component : RechercheCategorieRessourceComponent},
+  {path: "UpdateCategorie", component : UpdateCategorieComponent},
+  {path: "listeCategories", component : ListeCategoriesComponent},
   { path: 'create-study-group', component: CreateStudyGroupComponent },
   { path: 'join-study-group', component: JoinStudyGroupComponent },
   { path: '', redirectTo: '/join-study-group', pathMatch: 'full' },

@@ -1,0 +1,77 @@
+/* Form container styles */
+form {
+  max-width: 500px;
+  margin: 20px auto; /* Centers the form */
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form labels */
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input fields */
+form .form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Read-only fields */
+form .form-control[readonly] {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Submit button */
+form .btn-success {
+  width: 100%; /* Makes the button full-width */
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form .btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-2px); /* Slightly raises the button */
+}
+
+form .btn-success:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Margins for spacing */
+.mt-2 {
+  margin-top: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  form {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .form-control {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .btn-success {
+    font-size: 14px;
+  }
+}
