@@ -1,4 +1,4 @@
-<app-studentheader></app-studentheader>
+<!--<app-studentheader></app-studentheader>-->
  
  <!-- **************** MAIN CONTENT START **************** -->
  <main>
@@ -104,7 +104,7 @@
               <!-- Group name -->
               <div class="mb-3">
                 <label class="form-label">Ressource Name</label>
-                <input type="text" class="form-control" placeholder="Add name here">
+                <input type="text" [(ngModel)]="newRessource.nom" name="nomRessource" class="form-control" placeholder="Add name here">
               </div>
               <!-- Group picture -->
               <div class="mb-3">
@@ -114,7 +114,7 @@
                   <div class="avatar-uploader me-3">
                     <!-- Avatar edit -->
                     <div class="avatar-edit">
-                      <input type='file' id="avatarUpload" accept=".png, .jpg, .jpeg, .pdf, .word" />
+                      <input type='file' (change)="onFileChange($event)" id="avatarUpload" accept=".png, .jpg, .jpeg, .pdf, .word" />
                       <label for="avatarUpload"></label>
                     </div>
                    
@@ -130,12 +130,12 @@
               <!-- description -->
               <div class="mb-3">
                 <label class="form-label">Ressource description </label>
-                <textarea class="form-control" rows="3" placeholder="Description here"></textarea>
+                <textarea [(ngModel)]="newRessource.description" name="descriptionressource" class="form-control" rows="3" placeholder="Description here"></textarea>
               </div>
             </form>
             <!-- Form END -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success-soft">Create now</button>
+                <button type="submit" (click)="addRessource()" class="btn btn-success-soft">Create now</button>
             </div>
           </div>
           
@@ -149,4 +149,4 @@
     </main>
 <!-- **************** MAIN CONTENT END **************** -->
 
-<app-studentfooter></app-studentfooter>
+<!--<app-studentfooter></app-studentfooter>-->

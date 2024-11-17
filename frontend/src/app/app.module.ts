@@ -1,16 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,provideHttpClient, withFetch  } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -24,6 +15,7 @@ import { SidebarComponent } from './layout/sidenav/sidenav.component';
 import { RouterLinkActiveExactDirective } from './main/appRouterLinkActiveExact.directive';
 import { MainComponent } from './main/main.component';
 import { AddRessourceComponent } from './pages/add-ressource/add-ressource.component';
+import { StudentaddressourceComponent } from './student/studentaddressource/studentaddressource.component';
 import { CreateStudyGroupComponent } from './pages/create-study-group/create-study-group.component';
 import { JoinStudyGroupComponent } from './pages/join-study-group/join-study-group.component';
 import { ListeCategoriesComponent } from './pages/liste-categories/liste-categories.component';
@@ -33,13 +25,15 @@ import { RessourcesComponent } from './pages/ressources/ressources.component'; /
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { UpdateCategorieComponent } from './pages/update-categorie/update-categorie.component';
 import { UpdateRessourceComponent } from './pages/update-ressource/update-ressource.component';
+
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    CreateStudyGroupComponent,
-    JoinStudyGroupComponent,
-    SidebarComponent,
+    StudentaddressourceComponent,
+    //AppComponent,
+    //HeaderComponent,
+    //CreateStudyGroupComponent,
+    //JoinStudyGroupComponent,
+    //SidebarComponent,
     HomeComponent,
     DashboardComponent,
     MainComponent,
@@ -50,8 +44,8 @@ import { UpdateRessourceComponent } from './pages/update-ressource/update-ressou
     RessourcesComponent,
     AddRessourceComponent,
     UpdateRessourceComponent,
-    RechercheCategorieRessourceComponent,
-    ListeCategoriesComponent,
+    //RechercheCategorieRessourceComponent,
+    //ListeCategoriesComponent,
     UpdateCategorieComponent
     ],
   imports: [
@@ -60,20 +54,13 @@ import { UpdateRessourceComponent } from './pages/update-ressource/update-ressou
     BrowserAnimationsModule,
     CommonModule,
     RouterModule,
-    // * MATERIAL IMPORTS
-    MatSidenavModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatIconModule,
-    MatDividerModule,
-    MatListModule,
-    MatButtonModule,
-    MatCardModule,
     FormsModule,
-    MatTableModule,
+    //MatTableModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withFetch()), // This line enables `fetch` APIs for HttpClient
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
