@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Ressource } from 'src/app/model/ressource.model';
 import { Categorie } from '../model/categorie.model';
+import { Ressource } from '../model/ressource.model';
 
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -31,7 +31,8 @@ export class RessourceService {
 
 listeRessource(): Observable<Ressource[]>{
   return this.http.get<Ressource[]>(this.apiURL);
-  }
+}
+
   listeCategories():Observable<Categorie[]>{
     return this.http.get<Categorie[]>(this.apiURLCat);
   }
@@ -112,10 +113,6 @@ trierRessources() {
     }
     return 0;
   });
-}
-
-getAllResources(): Observable<Ressource[]> {
-  return this.http.get<Ressource[]>(this.apiURL);
 }
 
 
