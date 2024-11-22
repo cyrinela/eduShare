@@ -12,8 +12,6 @@ import { CategoriesComponent } from './categories/categories.component';
 import { StudentgroupsComponent } from './student/studentgroups/studentgroups.component';
 import { StudentaddgroupComponent } from './student/studentaddgroup/studentaddgroup.component';
 import { StudentaddressourceComponent } from './student/studentaddressource/studentaddressource.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
 
 export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -27,10 +25,6 @@ export const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'studentgroups', component: StudentgroupsComponent },
   { path: 'studentaddgroup', component: StudentaddgroupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-
-  
 
 
 
