@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Ressource } from 'src/app/model/ressource.model';
 import { RessourceService } from '../../services/ressource.service';
+import { Ressource } from '../../model/ressource.model';
 
 @Component({
   selector: 'app-ressources',
@@ -20,7 +20,7 @@ ngOnInit(): void {
 
   // Charge les ressources depuis le service
   loadRessources(): void {
-    this.ressourceService.getAllResources().subscribe(
+    this.ressourceService.listeRessource().subscribe(
       (data: Ressource[]) => {
         this.ressources = data; // Mise à jour du tableau des ressources
         console.log('Ressources chargées:', this.ressources); // Optionnel : pour voir les ressources dans la console

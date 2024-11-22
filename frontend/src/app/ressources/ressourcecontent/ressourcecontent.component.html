@@ -35,12 +35,12 @@ Page content START -->
                     <!-- Course title START -->
                     <div class="col-12">
                         <!-- Title -->
-                        <h1>The Complete Digital Marketing Course - 12 Courses in 1</h1>
+                        <h1>{{currentRessource.nom}}</h1>
                         <!-- Content -->
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star text-warning me-2"></i>4.5/5.0</li>
                             <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate text-orange me-2"></i>12k Enrolled</li>
-                            <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal text-success me-2"></i>All levels</li>
+                            <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fa-solid fa-download text-success me-2"></i>{{ getFileSize(+currentRessource.fileMetaData.fileSize) }}</li>
                         </ul>
                     </div>
                     <!-- Course title END -->
@@ -62,7 +62,7 @@ Page content START -->
 
                             <!-- Button -->
                             <div class="d-flex mt-2 mt-sm-0">
-                                <a class="btn btn-danger-soft btn-sm mb-0" href="#">Download</a>
+                                <button class="btn btn-danger-soft btn-sm mb-0" href="#" (click)="downloadRessourceFile(RessourceId)">Download</button>
                                 <!-- Share button with dropdown -->
                                 <div class="dropdown ms-2">
                                     <a href="#" class="btn btn-sm mb-0 btn-info-soft small" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
@@ -120,11 +120,8 @@ Page content START -->
                             <!-- Content START -->
                             <div class="tab-pane fade show active" id="course-pills-1" role="tabpanel" aria-labelledby="course-pills-tab-1">
                                 <!-- Course detail START -->
-                                <h5 class="mb-3">Course Description</h5>
-                                <p class="mb-3">Welcome to the <strong> Digital Marketing Ultimate Course Bundle - 12 Courses in 1 (Over 36 hours of content)</strong></p>
-                                <p class="mb-3">In this practical hands-on training, you’re going to learn to become a digital marketing expert with this <strong> ultimate course bundle that includes 12 digital marketing courses in 1!</strong></p>
-                                <p class="mb-3">If you wish to find out the skills that should be covered in a basic digital marketing course syllabus in India or anywhere around the world, then reading this blog will help. Before we delve into the advanced <strong><a href="#" class="text-reset text-decoration-underline">digital marketing course</a></strong> syllabus, let’s look at the scope of digital marketing and what the future holds.</p>
-                                <p class="mb-0">We focus a great deal on the understanding of behavioral psychology and influence triggers which are crucial for becoming a well rounded Digital Marketer. We understand that theory is important to build a solid foundation, we understand that theory alone isn’t going to get the job done so that’s why this course is packed with practical hands-on examples that you can follow step by step.</p>
+                                <h5 class="mb-3">Ressource Description</h5>
+                                <p>{{currentRessource.description}}</p>
                                 
                                 <!-- List content -->
                                 <h5 class="mt-4">What you’ll learn</h5>

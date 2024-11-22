@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ressource } from '../../model/ressource.model';
 import { RessourceService } from '../../services/ressource.service';
 import { SharedModule } from '../../shared.module';
+import { Categorie } from '../../model/categorie.model';
 
 
 
@@ -13,7 +14,7 @@ import { SharedModule } from '../../shared.module';
   styleUrl: './usercontent.component.css'
 })
 export class UsercontentComponent implements OnInit {
-
+  categories: Categorie[] = [];
   ressources: Ressource[] = [];  // Initialisation de ressources pour éviter des erreurs
   commentText: string = '';
 
@@ -25,71 +26,52 @@ ngOnInit(): void {
 
   //charger les ressources
   loadRessources(){
+    this.ressourceService.listeCategories().
+    subscribe(result => {this.categories = result;
+    });
+
     this.ressourceService.listeRessource().subscribe(reso => {
-    console.log(reso);
-    this.ressources = reso;
+      this.ressources = reso;
     });
     }
 
-  // Supprime une ressource
-supprimerRessource(p: Ressource): void {
-    let conf = confirm('Etes-vous sûr de vouloir supprimer cette ressource ?');
-    if (conf) {
-      this.ressourceService.supprimerRessource(p.id).subscribe({
-        next: () => {
-          console.log('Ressource supprimée');
-          this.loadRessources(); // Recharger les ressources après suppression
-        },
-        error: (err) => {
-          console.error('Erreur lors de la suppression de la ressource:', err);
-          if (err.status === 404) {
-            alert('La ressource n\'existe pas ou a déjà été supprimée.');
-          } else if (err.status === 500) {
-            alert('Une erreur serveur est survenue. Veuillez réessayer plus tard.');
-          } else {
-            alert('Une erreur est survenue lors de la suppression de la ressource.');
-          }
-        },
-      });
-    }
+
+countCategorie(name:string):number {
+  let result = 0;
+  this.ressources.forEach(ressource => {
+      if (ressource.categorie.nom === name) {
+        result++;
+      }
+    });
+  return result;
 }
 
-  // Télécharge le fichier associé à une ressource
-downloadRessourceFile(id: number): void {
-    this.ressourceService.downloadFile(id).subscribe({
-      next: (blob) => {
-        let FileName:any;
-        // get meta data de fichier
-        this.ressourceService.consulterRessource(id).subscribe({
-          next: (data) => {
-            FileName = data.fileMetaData.fileName;
+async filter() {
+  let searchQuery:string;
+  const result:any[] = [];
+  const getAll:Boolean = (document.getElementById("categ-all") as HTMLInputElement).checked;
 
-            // Création de l'URL pour le fichier blob
-            const url = window.URL.createObjectURL(blob);
-            // Création d'un lien pour le téléchargement
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = FileName;
-            link.click();
-            window.URL.revokeObjectURL(url); // supprimer l'URL après téléchargement
-          },
-          error: (err) => {
-            console.error('Error fetching MetaData:', err);
-          },
-        })
-      },
-      error: (err) => {
-        console.error('Échec du téléchargement du fichier:', err);
-        alert('Échec du téléchargement du fichier.');
-      },
-    });
-  }
-
-  getFileSize(ByteSize:number):String {
-    if ((ByteSize / Math.pow(1024,2)) >= 1) {
-      return (ByteSize / Math.pow(1024,2)).toFixed(2) + " MB";
+  for (let i = 0; i < this.categories.length; i++) {
+    searchQuery = (document.getElementById("categName-"+i) as HTMLLabelElement).innerHTML;
+    if (!getAll && (document.getElementById("categ-"+i) as HTMLInputElement).checked) {
+      const data = await this.ressourceService.searchRessources(searchQuery, "true").toPromise();
+      result.push(...data || []);
     }
-    return (ByteSize / 1024).toFixed(2) + " KB";
+    else if (getAll) {
+      const data = await this.ressourceService.searchRessources(searchQuery, "true").toPromise();
+      result.push(...data || []);
+    }
   }
+  
+  this.ressources = result;
+}
+
+
+async search() {
+  let result:Ressource[] = [];
+  let searchQuery:string = (document.getElementById("search") as HTMLInputElement).value;
+  result = await this.ressourceService.searchRessources(searchQuery,"false").toPromise() as Ressource[];
+  this.ressources = result;
+}
 
 }

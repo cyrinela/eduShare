@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AdminComponent } from './admin/admin.component';
-import { UsercontentComponent } from './user/usercontent/usercontent.component';
-import { UserfooterComponent } from './user/userfooter/userfooter.component';
-import { UserheaderComponent } from './user/userheader/userheader.component';
 import { UserpageComponent } from './user/userpage/userpage.component';
 import { RessourcepageComponent } from './ressources/ressourcepage/ressourcepage.component';
 import { StudentpageComponent } from './student/studentdashboard/studentdashboard.component';
@@ -17,19 +15,16 @@ import { StudentaddressourceComponent } from './student/studentaddressource/stud
 
 export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
-  { path: 'usercont', component: UsercontentComponent },
-  { path: 'userhead', component: UserheaderComponent },
-  { path: 'userfoot', component: UserfooterComponent },
   { path: 'userpage', component: UserpageComponent },
-  { path: 'ressource', component: RessourcepageComponent },
-  { path: 'studentdashboard', component: StudentpageComponent },
+  { path: 'ressource/:id', component: RessourcepageComponent },
+  { path: 'addressource', component: StudentaddressourceComponent },
+  { path: 'editressource', component: StudentpageComponent },
   { path: 'studentdash', component: StudentdashComponent },
   { path: 'studenteditprofile', component: StudenteditprofileComponent },
   { path: 'studentreviews', component: StudentreviewsComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'studentgroups', component: StudentgroupsComponent },
   { path: 'studentaddgroup', component: StudentaddgroupComponent },
-  { path: 'studentaddressource', component: StudentaddressourceComponent },
 
 
 

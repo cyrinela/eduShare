@@ -10,8 +10,8 @@
 					<div class="col-xl-6">
 						<form class="border rounded p-2">
 							<div class="input-group input-borderless">
-								<input class="form-control me-1" type="search" placeholder="Find your course">
-								<button type="button" class="btn btn-primary mb-0 rounded z-index-1"><i class="fas fa-search"></i></button>
+								<input class="form-control me-1" id="search" type="search" placeholder="Find Ressource by name" (keydown)="search()">
+								<button type="button" class="btn btn-primary mb-0 rounded z-index-1" (click)="search()"><i class="fas fa-search"></i></button>
 							</div>
 						</form>
 					</div>
@@ -26,7 +26,7 @@
 							<i class="fas fa-sliders-h me-1"></i> Show filter
 						</button>
 						<!-- Advanced filter responsive toggler END -->
-						<p class="mb-0 text-end">Showing 1-7 of 32 result</p>
+						<p class="mb-0 text-end">Showing 1-7 of {{this.ressources.length}} results</p>
 					</div>
 	
 				</div>
@@ -48,7 +48,7 @@
 									<a href="#" class="h6 fw-light mb-0"><i class="far fa-heart"></i></a>
 								</div>
 								<!-- Title -->
-								<a routerLink="/ressource" routerLinkActive="active"><h5 class="card-title">{{ item.nom }}</h5></a>
+								<a [routerLink]="['/ressource',item.id]" routerLinkActive="active"><h5 class="card-title">{{ item.nom }}</h5></a>
 								<p class="mb-2 text-truncate-2">{{ item.description }}</p>
 								<!-- Rating star -->
 								<ul class="list-inline mb-0">
@@ -65,7 +65,7 @@
 								<hr>
 								<div class="d-flex justify-content-between">
 							
-									<span class="h6 fw-light mb-0"><i class="fas fa-table text-orange me-2"></i>{{ item.categorie?.nom || 'Non spécifié' }}</span>
+									<span class="h6 fw-light mb-0"><i class="fas fa-table text-orange me-2"></i>{{ item.categorie.nom || 'Non spécifié' }}</span>
 								</div>
 							</div>
 						</div>
@@ -106,98 +106,42 @@
 								<!-- Category START -->
 								<div class="card card-body shadow p-4 mb-4">
 									<!-- Title -->
-									<h4 class="mb-3">Category</h4>
+									<h4 class="mb-3">Categories</h4>
 									<!-- Category group -->
 									<div class="col-12">
 										<!-- Checkbox -->
 										<div class="d-flex justify-content-between align-items-center">
 											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault9">
+												<input class="form-check-input" type="checkbox" value="" id="categ-all" checked>
 												<label class="form-check-label" for="flexCheckDefault9">All</label>
 											</div>
-											<span class="small">(1256)</span>
+											<span class="small">{{this.ressources.length}}</span>
 										</div>
 										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
+										<div *ngFor="let item of categories; let i = index" class="d-flex justify-content-between align-items-center">
 											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault10">
-												<label class="form-check-label" for="flexCheckDefault10">Examen</label>
+												<input class="form-check-input" type="checkbox" value="" [attr.id]="'categ-' + i">
+												<label class="form-check-label" for="flexCheckDefault10" [attr.id]="'categName-' + i">{{ item.nom }}</label>
 											</div>
-											<span class="small">(365)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault11">
-												<label class="form-check-label" for="flexCheckDefault11">DS</label>
-											</div>
-											<span class="small">(156)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault12">
-												<label class="form-check-label" for="flexCheckDefault12">Exercice</label>
-											</div>
-											<span class="small">(65)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault17">
-												<label class="form-check-label" for="flexCheckDefault17">cours</label>
-											</div>
-											<span class="small">(245)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault13">
-												<label class="form-check-label" for="flexCheckDefault13">TP</label>
-											</div>
-											<span class="small">(184)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault14">
-												<label class="form-check-label" for="flexCheckDefault14">TD</label>
-											</div>
-											<span class="small">(65)</span>
-										</div>
-										<!-- Checkbox -->
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault15">
-												<label class="form-check-label" for="flexCheckDefault15">Photography</label>
-											</div>
-											<span class="small">(99)</span>
+											<span class="small ml-5">({{ countCategorie(item.nom) }})</span>
 										</div>
 										
 										<!-- Collapse body -->
-										<div class="collapse multi-collapse" id="multiCollapseExample1">
-											<div class="card card-body p-0">
+										<!-- <div class="collapse multi-collapse" id="multiCollapseExample1">
+											<div class="card card-body p-0"> -->
 												<!-- Checkbox -->
-												<div class="d-flex justify-content-between align-items-center">
+												<!-- <div *ngFor="let item of categories" class="d-flex justify-content-between align-items-center">
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault16">
 														<label class="form-check-label" for="flexCheckDefault16">Writing</label>
 													</div>
 													<span class="small">(178)</span>
 												</div>
-												<!-- Checkbox -->
-												<div class="d-flex justify-content-between align-items-center">
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault18">
-														<label class="form-check-label" for="flexCheckDefault18">Marketing</label>
-													</div>
-													<span class="small">(104)</span>
-												</div>
 											</div>
-										</div>
+										</div> -->
 										<!-- Collapse button -->
 										<a class=" p-0 mb-0 mt-2 btn-more d-flex align-items-center" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-											See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fas fa-angle-down ms-2"></i>
+											See <span class="see-more ms-1">more /</span><span class="see-less ms-1">less</span><i class="fas fa-angle-down ms-2"></i>
 										</a>
 									</div>
 								</div>
@@ -208,7 +152,7 @@
 	
 					<!-- Button -->
 					<div class="d-grid p-2 p-lg-0 text-center">
-						<button class="btn btn-primary mb-0">Filter Results</button>
+						<button class="btn btn-primary mb-0" (click)="filter()">Filter Results</button>
 					</div>
 	
 				</div>
