@@ -1,0 +1,164 @@
+<section class="py-5">
+	<div class="container">
+		<div class="row">
+			<!-- Main content START -->
+			<div class="col-lg-8 col-xl-9">
+	
+				<!-- Search option START -->
+				<div class="row mb-4 align-items-center">
+					<!-- Search bar -->
+					<div class="col-xl-6">
+						<form class="border rounded p-2">
+							<div class="input-group input-borderless">
+								<input class="form-control me-1" id="search" type="search" placeholder="Find Ressource by name" (keydown)="search()">
+								<button type="button" class="btn btn-primary mb-0 rounded z-index-1" (click)="search()"><i class="fas fa-search"></i></button>
+							</div>
+						</form>
+					</div>
+	
+					<!-- Select option -->
+					
+	
+					<!-- Content -->
+					<div class="col-12 col-xl-3 d-flex justify-content-between align-items-center mt-3 mt-xl-0">
+						<!-- Advanced filter responsive toggler START -->
+						<button class="btn btn-primary mb-0 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+							<i class="fas fa-sliders-h me-1"></i> Show filter
+						</button>
+						<!-- Advanced filter responsive toggler END -->
+						<p class="mb-0 text-end">Showing 1-7 of {{this.ressources.length}} results</p>
+					</div>
+	
+				</div>
+				<!-- Search option END -->
+	
+				<!-- Course Grid START -->
+				<div class="row g-4">
+	
+					<!-- Card item START -->
+					<div *ngFor="let item of ressources" class="col-sm-6 col-xl-4">
+						<div class="card shadow h-100">
+							<!-- Image -->
+							<img src="assets/images/courses/4by3/08.jpg" class="card-img-top" alt="course image">
+							<!-- Card body -->
+							<div class="card-body pb-0">
+								<!-- Badge and favorite -->
+								<div class="d-flex justify-content-between mb-2">
+									
+									<a href="#" class="h6 fw-light mb-0"><i class="far fa-heart"></i></a>
+								</div>
+								<!-- Title -->
+								<a [routerLink]="['/ressource',item.id]" routerLinkActive="active"><h5 class="card-title">{{ item.nom }}</h5></a>
+								<p class="mb-2 text-truncate-2">{{ item.description }}</p>
+								<!-- Rating star -->
+								<ul class="list-inline mb-0">
+									<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+									<li class="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
+								</ul>
+							</div>
+							<!-- Card footer -->
+							<div class="card-footer pt-0 pb-3">
+								<hr>
+								<div class="d-flex justify-content-between">
+							
+									<span class="h6 fw-light mb-0"><i class="fas fa-table text-orange me-2"></i>{{ item.categorie.nom || 'Non spécifié' }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Card item END -->
+	
+	
+				</div>
+				<!-- Course Grid END -->
+	
+				<!-- Pagination START -->
+				<div class="col-12">
+					<nav class="mt-4 d-flex justify-content-center" aria-label="navigation">
+						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+							<li class="page-item mb-0 active" aria-current="page"><a class="page-link" href="#">2</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+						</ul>
+					</nav>
+				</div>
+				<!-- Pagination END -->
+			</div>
+			<!-- Main content END -->
+	
+			<!-- Right sidebar START -->
+			<div class="col-lg-4 col-xl-3">
+				<!-- Responsive offcanvas body START -->
+				<div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+					<div class="offcanvas-header bg-light">
+						<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Advance Filter</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body p-3 p-lg-0">
+						<form>
+								<!-- Category START -->
+								<div class="card card-body shadow p-4 mb-4">
+									<!-- Title -->
+									<h4 class="mb-3">Categories</h4>
+									<!-- Category group -->
+									<div class="col-12">
+										<!-- Checkbox -->
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="categ-all" checked>
+												<label class="form-check-label" for="flexCheckDefault9">All</label>
+											</div>
+											<span class="small">{{this.ressources.length}}</span>
+										</div>
+										<!-- Checkbox -->
+										<div *ngFor="let item of categories; let i = index" class="d-flex justify-content-between align-items-center">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" [attr.id]="'categ-' + i">
+												<label class="form-check-label" for="flexCheckDefault10" [attr.id]="'categName-' + i">{{ item.nom }}</label>
+											</div>
+											<span class="small ml-5">({{ countCategorie(item.nom) }})</span>
+										</div>
+										
+										<!-- Collapse body -->
+										<!-- <div class="collapse multi-collapse" id="multiCollapseExample1">
+											<div class="card card-body p-0"> -->
+												<!-- Checkbox -->
+												<!-- <div *ngFor="let item of categories" class="d-flex justify-content-between align-items-center">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault16">
+														<label class="form-check-label" for="flexCheckDefault16">Writing</label>
+													</div>
+													<span class="small">(178)</span>
+												</div>
+											</div>
+										</div> -->
+										<!-- Collapse button -->
+										<a class=" p-0 mb-0 mt-2 btn-more d-flex align-items-center" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+											See <span class="see-more ms-1">more /</span><span class="see-less ms-1">less</span><i class="fas fa-angle-down ms-2"></i>
+										</a>
+									</div>
+								</div>
+								<!-- Category END -->
+		
+						</form><!-- Form End -->
+					</div>
+	
+					<!-- Button -->
+					<div class="d-grid p-2 p-lg-0 text-center">
+						<button class="btn btn-primary mb-0" (click)="filter()">Filter Results</button>
+					</div>
+	
+				</div>
+				<!-- Responsive offcanvas body END -->
+			</div>
+			<!-- Right sidebar END -->
+		</div><!-- Row END -->
+	</div>
+	</section>

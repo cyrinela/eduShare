@@ -1,0 +1,132 @@
+<app-studentheader></app-studentheader>
+ 
+ <!-- **************** MAIN CONTENT START **************** -->
+
+    <!-- =======================
+    Page content START -->
+    <section class="container">
+        
+        <app-student-sidenav/>
+    
+        <!-- Main content START -->
+        <div class="col-xl-9">
+            <!-- Card START -->
+            <div class="card border bg-transparent rounded-3">
+                <!-- Card header START -->
+                <div class="card-header bg-transparent border-bottom">
+                    <h3 class="mb-0">My Ressources List</h3>
+                </div>
+                <!-- Card header END -->
+
+                <!-- Card body START -->
+                <div class="card-body">
+
+                    <!-- Course list table START -->
+                    <div class="table-responsive border-0">
+                        <table class="table align-middle p-4 mb-0 table-hover">
+                            <!-- Table head -->
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 rounded-start">Ressource Title</th>
+                                    <th scope="col" class="border-0">Status</th>
+                                    <th scope="col" class="border-0 rounded-end">Action</th>
+                                </tr>
+                            </thead>
+
+                            <!-- Table body START -->
+                            <tbody>
+                                <!-- Table item -->
+                                <tr *ngFor="let item of ressources">
+                                    <!-- Course item -->
+                                    <td>
+                                        <div class="d-flex align-items-start">
+                                            <!-- Image -->
+                                            <div class="w-60px">
+                                                <img src="assets/images/courses/4by3/08.jpg" class="rounded" alt="">
+                                            </div>
+                                            <div class="mb-0 ms-2" [attr.id]="'Res-' + item.id">
+                                                <!-- Title -->
+                                                <h6><a href="#">{{item.nom}}</a></h6>
+                                                <!-- Info -->
+                                                <div class="d-sm-flex">
+                                                    <p class="h6 fw-light mb-0 small me-3"><i class="fas fa-table text-orange me-2"></i>{{ item.categorie.nom || 'Non spécifié' }}</p>
+                                                    <p class="h6 fw-light mb-0 small"><i class="fa-solid fa-download text-success me-2"></i>{{ getFileSize(+item.fileMetaData.fileSize) }}</p>
+                                                </div><br>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!-- Status item -->
+                                    <td>
+                                        <div class="badge bg-success bg-opacity-10 text-success">Accepted</div>
+                                    </td>
+                                    
+                                    <td>
+                                        <a class="btn btn-sm btn-success-soft btn-round me-1 mb-0" (click)="toggleEdit(item)"><i class="far fa-fw fa-edit"></i></a> <!--edit button-->
+                                        <a class="btn btn-sm btn-danger-soft btn-round mb-0" (click)="supprimerRessource(item)"><i class="fas fa-fw fa-times"></i></a>  <!--delete button-->
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            <!-- Table body END -->
+                        </table>
+                    </div>
+                    <!-- Course list table END -->
+
+                    <!-- Pagination START -->
+                    <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+                        <!-- Content -->
+                        <p class="mb-0 text-center text-sm-start">Showing 1-8 of {{this.ressources.length}} entries</p>
+                        <!-- Pagination -->
+                        <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                            <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Pagination END -->
+                </div>
+                <!-- Card body START -->
+            </div>
+            <!-- Card END -->
+        </div>
+
+        <!-- Main content END -->
+    </section>
+    <!-- =======================
+    Page content END -->
+<!-- **************** MAIN CONTENT END **************** -->
+
+
+<div style="display: none;" class="modal-body" id="editForm">
+    <!-- Form START -->
+    <form>
+      <!-- Group name -->
+      <div class="mb-3">
+        <label class="form-label">Ressource Name</label>
+        <input type="text" [(ngModel)]="ResourceToEdit.nom" name="nom" class="form-control" placeholder="Add name here" required>
+      </div>
+      <!-- description -->
+      <div class="mb-3">
+        <label class="form-label">Ressource description </label>
+        <textarea class="form-control" [(ngModel)]="ResourceToEdit.description" name="description" rows="3" placeholder="Description here" required></textarea>
+      </div>
+      <!-- categorie -->
+      <div class="mb-3">
+        <label class="form-label">Ressource categorie </label>
+        <select  id="idCat" name="idCat" [(ngModel)]="updatedCatId" class="form-select" required>
+            <option value="" disabled selected>Select a category</option>
+            <option *ngFor="let cat of categories" [value]="cat.id" >{{cat.nom}}</option>
+        </select>
+      </div>
+    </form>
+    <!-- Form END -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success-soft" (click)="updateRessource(ResourceToEdit)">Edit Ressource</button>
+    </div>
+</div>
+
+<app-userfooter/>

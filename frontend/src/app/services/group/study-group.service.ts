@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class StudyGroupService {
-  private apiUrl = 'http://localhost:8100/groups';
+  private apiUrl = 'http://localhost:8888/GS-DATA/groups';
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +24,7 @@ export class StudyGroupService {
   }
 
   // Méthode pour rejoindre un groupe
-  joinGroup(groupId: number, body: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/join/${groupId}`, body);
+  joinGroup(groupId: number, body: FormData) {
+    return this.http.post(`${this.apiUrl}/join/${groupId}`, body);
   }
 }

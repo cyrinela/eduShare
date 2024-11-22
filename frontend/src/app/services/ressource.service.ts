@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { Ressource } from 'src/app/model/ressource.model';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Categorie } from '../model/categorie.model';
+import { Ressource } from '../model/ressource.model';
 
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -16,46 +16,38 @@ const httpOptions = {
 })
 
 export class RessourceService {
-  apiURL: string = 'http://localhost:8100/ressources';
-  apiURLCat: string = 'http://localhost:8100/categories';
+  apiURL: string = 'http://localhost:8888/GS-DATA/ressources';
+  apiURLCat: string = 'http://localhost:8888/GS-DATA/categories';
 
 
   ressources: Ressource[] =[];
  categories! : Categorie[];
 
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient) {}
 
-    }
-
-
-
-listeRessource(): Observable<Ressource[]>{
-  return this.http.get<Ressource[]>(this.apiURL);
+  listeRessource(): Observable<Ressource[]>{
+    return this.http.get<Ressource[]>(this.apiURL);
   }
+
   listeCategories():Observable<Categorie[]>{
     return this.http.get<Categorie[]>(this.apiURLCat);
   }
-    searchRessources(query: string): Observable<any[]> {
-      const params = new HttpParams().set('query', query);
-      return this.http.get<any[]>(`${this.apiURL}/search`, { params });
-    }
+
+  searchRessources(query: string,searchCategorie: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiURL}/search?query=${query}&searchCategorie=${searchCategorie}`);
+  }
 
 
-  ajouterRessource(reso: Ressource, file: File) {
-            const formData: FormData = new FormData();
+ajouterRessource(reso: Ressource, file: File) {
+    const formData: FormData = new FormData();
 
-            // Append the Ressource object as JSON
-            formData.append('ressource', new Blob([JSON.stringify(reso)], { type: 'application/json' }));
-            // Append the file
-            formData.append('file', file);
+    // Append the Ressource object as JSON
+    formData.append('ressource', new Blob([JSON.stringify(reso)], { type: 'application/json' }));
+    // Append the file
+    formData.append('file', file);
 
 
-            return this.http.post(`${this.apiURL}/add`, formData,
-              {
-                reportProgress: true,
-                observe: 'events',
-
-              });
+    return this.http.post(`${this.apiURL}/add`, formData);
   }
 
 
@@ -82,20 +74,12 @@ uploadFile(file: File, fileUrlId: string): Observable<any> {
           })
       );
   }*/
-     /* deleteRessource(id: number): Observable<any> {
-        return this.http.delete(`${this.apiURL}/${id}`);
-      }*/
 
 supprimerRessource(id: number): Observable<any> {
       const url = `${this.apiURL}/${id}`;
       console.log(`Attempting to delete resource at: ${url}`);
-      return this.http.delete(url, httpOptions).pipe(
-          catchError(error => {
-              console.error('Erreur lors de la suppression:', error);
-              return throwError(error); // Rethrow the error for further handling
-          })
-      );
-}
+      return this.http.delete<any>(url);
+  }
 
 consulterRessource(id: number): Observable<Ressource> {
         const url = `${this.apiURL}/${id}`;
@@ -114,14 +98,10 @@ trierRessources() {
   });
 }
 
-getAllResources(): Observable<Ressource[]> {
-  return this.http.get<Ressource[]>(this.apiURL);
-}
 
-
-updateRessource(id: number, prod: Ressource): Observable<Ressource> {
+updateRessource(id: number, prod: Ressource) {
   const url = `${this.apiURL}/${id}`;
-  return this.http.put<Ressource>(url, prod, httpOptions);
+  return this.http.put(url, prod);
 }
 
 downloadFile(id: number) {

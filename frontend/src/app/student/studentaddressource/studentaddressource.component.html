@@ -1,0 +1,73 @@
+<app-studentheader></app-studentheader>
+ 
+ <!-- **************** MAIN CONTENT START **************** -->
+    <!--Page content START -->
+    <section class="container">
+
+      <!-- Non-Cancellable Upload In Progress Modal -->
+      <div *ngIf="!FileUploaded" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-5 rounded shadow-lg text-center">
+          <h2 class="text-lg font-semibold mb-4">File is uploading...</h2>
+          <p>Please wait until the upload completes.</p>
+        </div>
+      </div>
+        
+      <app-student-sidenav/>
+    
+        <!-- Main content START -->
+        <div class="modal-body">
+            <!-- Form START -->
+            <form>
+              <!-- Group name -->
+              <div class="mb-3">
+                <label class="form-label">Ressource Name</label>
+                <input type="text" [(ngModel)]="newRessource.nom" name="nom" class="form-control" placeholder="Add name here" required>
+              </div>
+              <!-- description -->
+              <div class="mb-3">
+                <label class="form-label">Ressource description </label>
+                <textarea class="form-control" [(ngModel)]="newRessource.description" name="description" rows="3" placeholder="Description here" required></textarea>
+              </div>
+              <!-- categorie -->
+              <div class="mb-3">
+                <label class="form-label">Ressource categorie </label>
+                <select  id="idCat" name="idCat" [(ngModel)]="newIdCat" class="form-select" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option *ngFor="let cat of categories" [value]="cat.id" >{{cat.nom}}</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <!-- File upload -->
+                <label class="form-label">Ressource File</label>
+                <div class="d-flex align-items-center">
+                  <div class="avatar-uploader me-3">
+                    <div class="file-edit">
+                      <input type='file' #fileUpload (change)="onFileChange($event)" name="resFile" required/>
+                      <label for="fileUpload"></label>
+                    </div>
+                   
+                  </div>
+                  <!-- Avatar remove button -->
+                  <div class="avatar-remove">
+                    <button type="button" id="avatar-reset-img" class="btn btn-light" (click)="fileUpload.value = ''">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Form END -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success-soft" (click)="addRessource()">Create now</button>
+            </div>
+          </div>
+
+        <!-- Main content END -->
+    </section>
+    <!-- =======================
+    Page content END -->
+<!-- **************** MAIN CONTENT END **************** -->
+
+
+
+<app-userfooter/>
