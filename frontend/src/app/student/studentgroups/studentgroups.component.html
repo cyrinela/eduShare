@@ -64,7 +64,8 @@
                           </div>
                           <!-- Info -->
                           <h5 class="mb-0"> <a href="group-details.html">{{group.name}}</a> </h5>
-                          <small> <i class="fa-solid fa-lock"></i> Private Group</small>
+                          <small *ngIf="group.code == ''"> <i class="fa-solid fa-lock-open"></i> Public Group</small>
+                          <small *ngIf="group.code != ''"> <i class="fa-solid fa-lock"></i> Private Group</small>
                           <!-- Group stat START -->
                           <div class="hstack gap-2 gap-xl-3 justify-content-center mt-3">
                             <!-- Divider -->
@@ -101,7 +102,7 @@
                       <!-- Card body END -->
                       <!-- Card Footer START -->
                       <div class="card-footer text-center">
-                        <input type="text" [attr.id]="'code-'+ group.id" name="nom" class="form-control w-50 mx-auto mb-3" placeholder="# Enter Code">
+                        <input [disabled]="group.code == ''" type="text" [attr.id]="'code-'+ group.id" name="nom" class="form-control w-50 mx-auto mb-3" placeholder="# Enter Code">
                         <a class="btn btn-success-soft btn-sm" (click)="joinGroup(group.id)"> Join group </a>
                       </div>
                       <!-- Card Footer END -->

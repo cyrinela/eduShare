@@ -23,9 +23,11 @@ public class StudyGroupController {
     }
 
     // API pour créer un groupe
-    @PostMapping("/create")
-    public StudyGroup createGroup(@RequestBody StudyGroup group) {
-        return studyGroupService.createGroup(group);
+    @PostMapping("/create/{audience}")
+    public StudyGroup createGroup(
+            @PathVariable String audience,
+            @RequestBody StudyGroup group) {
+        return studyGroupService.createGroup(group,audience);
     }
 
     // Méthode pour récupérer tous les groupes

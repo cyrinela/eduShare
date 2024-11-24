@@ -19,8 +19,12 @@ public class StudyGroupService {
     private GroupConnectionRepository groupConnectionRepository;
 
     // Créer un groupe
-    public StudyGroup createGroup(StudyGroup group) {
-        group.setCode(GenerateCode());
+    public StudyGroup createGroup(StudyGroup group, String audience) {
+        if (audience.matches("private")) {
+            group.setCode(GenerateCode());
+        }
+        else { group.setCode(""); };
+
         StudyGroup Res = studyGroupRepository.save(group);
         // add to user to its created group
         groupConnectionRepository.save(new GroupConnection(1L,Res.getId()));

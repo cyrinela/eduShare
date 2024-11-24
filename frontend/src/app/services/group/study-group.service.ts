@@ -11,8 +11,8 @@ export class StudyGroupService {
   constructor(private http: HttpClient) {}
 
   // Méthode pour créer un groupe
-  createGroup(group: { name: string; description: string}): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/create`, group);
+  createGroup(group: { name: string; description: string}, audience : string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/create/${audience}`, group);
   }
    // Méthode pour récupérer tous les groupes
    getAllGroups(): Observable<any[]> {

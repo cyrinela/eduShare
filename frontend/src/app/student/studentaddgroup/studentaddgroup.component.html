@@ -16,7 +16,7 @@
               <!-- Group name -->
               <div class="mb-3">
                 <label class="form-label">Group name</label>
-                <input type="text" class="form-control" placeholder="Add Group name here">
+                <input type="text" class="form-control" [(ngModel)]="groupName" name="groupName" placeholder="Add Group name here">
               </div>
               <!-- Group picture -->
               <div class="mb-3">
@@ -26,9 +26,9 @@
                   <div class="avatar-uploader me-3">
                     <!-- Avatar edit -->
                     <div class="avatar-edit">
-                      <input type='file' id="avatarUpload" accept=".png, .jpg, .jpeg" />
+                      <input type='file' id="avatarUpload" />
                       <label for="avatarUpload"></label>
-                    </div>
+                    </div><br>
                     <!-- Avatar preview -->
                     <div class="avatar avatar-xl position-relative">
                       <img id="avatar-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="assets/images/placeholder.jpg" alt="">
@@ -36,7 +36,7 @@
                   </div>
                   <!-- Avatar remove button -->
                   <div class="avatar-remove">
-                    <button type="button" id="avatar-reset-img" class="btn btn-light">Delete</button>
+                    <button type="button" id="avatar-reset-img" class="btn btn-light"><i class="fa-solid fa-xmark"></i></button>
                   </div>
                 </div>
                 <!-- Avatar upload END -->
@@ -45,32 +45,36 @@
               <div class="mb-3">
                 <label class="form-label d-block">Select audience</label>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="PublicRadioOptions" id="publicRadio1" value="option1">
+                  <input class="form-check-input" type="radio" name="PublicRadioOptions" id="publicRadio" value="option1" checked>
                   <label class="form-check-label" for="publicRadio1">Public</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="PublicRadioOptions" id="privateRadio2" value="option2">
+                  <input class="form-check-input" type="radio" name="PublicRadioOptions" id="privateRadio" value="option2">
                   <label class="form-check-label" for="privateRadio2">Private</label>
                 </div>
               </div>
               <!-- Group description -->
               <div class="mb-3">
                 <label class="form-label">Group description </label>
-                <textarea class="form-control" rows="3" placeholder="Description here"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="groupDescription" name="groupDescription" placeholder="Description here"></textarea>
               </div>
               <!-- Group code -->
-              <div class="mb-3">
+              <div class="mb-3" id="join-code">
                 <label class="form-label">Joining Code </label>
-                <input type="text" class="form-control w-25" placeholder="# AUTO GENERATED" disabled>
+
+                <div class="mb-3 d-flex align-items-center">
+                  <input type="text" class="form-control w-25" [(ngModel)]="groupCode" name="groupCode" placeholder="# AUTO GENERATED" disabled>
+                  <button class="mx-3 my-1 btn btn-secondary" type="button" (click)="CopyToClipboard()">Copy code</button>
+                </div>
               </div>
             </form>
             <!-- Form END -->
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-success-soft">Create now</button>
-            </div>
+                <button type="button" class="btn btn-success-soft" (click)="createGroup()">Create now</button>
+            </div><br>
+
           </div>
-          *
-          
 
         <!-- Main content END -->
     </section>
