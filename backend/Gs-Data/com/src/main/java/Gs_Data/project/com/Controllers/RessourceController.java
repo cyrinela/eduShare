@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/ressources")
 public class RessourceController {
@@ -35,16 +35,18 @@ public class RessourceController {
         List<Ressource> resources = ressourceService.searchResources(query);
         return ResponseEntity.ok(resources);
     }
-    @GetMapping
+    @GetMapping ("all")
     public List<Ressource> getAll() {
         return ressourceService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getbyid/{id}")
     public Ressource findById(@PathVariable Long id) {
         return ressourceService.findById(id);
     }
-    @PutMapping("/{id}")
+
+    // @PutMapping("/{id}")
+    @RequestMapping(path="/updateress",method = RequestMethod.PUT)
     public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
         if (ressourceService.Modify(id, ressource)) {
             Map<String, String> response = new HashMap<>();
@@ -64,7 +66,7 @@ public class RessourceController {
 
 
 
-    @DeleteMapping("/{id}")
+    @RequestMapping(value="/delress/{id}",method = RequestMethod.DELETE)
     public void Delete(@PathVariable("id") Long id) {
         if (ressourceService.Delete(id)) {
             // If necessary, handle any success response here
@@ -87,7 +89,7 @@ public class RessourceController {
     }
 
 
-    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/address", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
                                          @RequestPart(name = "file") MultipartFile file) throws IOException {
         try {
@@ -106,3 +108,4 @@ public class RessourceController {
         }
     }
 }
+
