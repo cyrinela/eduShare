@@ -62,6 +62,10 @@ public class StudyGroupService {
         return false;
     }
 
+    public void LeaveGroup(Long userId, Long groupId) {
+        groupConnectionRepository.deleteByUserIdAndGroupId(userId, groupId);
+    }
+
     private String GenerateCode() {
         SecureRandom generator = new SecureRandom();
         Long code = generator.nextLong();

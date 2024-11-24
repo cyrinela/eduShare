@@ -27,4 +27,8 @@ export class StudyGroupService {
   joinGroup(groupId: number, body: FormData) {
     return this.http.post(`${this.apiUrl}/join/${groupId}`, body);
   }
+
+  leaveGroup(userId: number, groupId: number) {
+    return this.http.get(`${this.apiUrl}/exit?userId=${userId}&groupId=${groupId}`);
+  }
 }

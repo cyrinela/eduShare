@@ -4,6 +4,7 @@ import { UserfooterComponent } from '../../user/userfooter/userfooter.component'
 import { StudentSidenavComponent } from '../student-sidenav/student-sidenav.component';
 import { StudyGroupService } from '../../services/group/study-group.service';
 import { SharedModule } from '../../shared.module';
+import { response } from 'express';
 
 @Component({
   selector: 'app-studentgroups',
@@ -15,6 +16,7 @@ import { SharedModule } from '../../shared.module';
 export class StudentgroupsComponent {
   myGroups: any[] = []; // Tableau pour stocker les groupes
   availableGroups: any[] = [];
+  favoriteGroups: any[] = [];
 
   constructor(private studyGroupService: StudyGroupService) {}
 
@@ -63,6 +65,21 @@ export class StudentgroupsComponent {
         alert('Erreur lors du rejoint du groupe');
       }
     });
-       
+  }
+
+  leaveGroup(groupId: number) {
+    const userId = 1;// ID de l'utilisateur, à remplacer selon la logique d'authentification
+
+    this.studyGroupService.leaveGroup(userId,groupId).subscribe({
+      next: (response) => {
+        console.error(response);
+        alert('vous avez quitté ce groupe');
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Erreur lors du sortie du groupe:', error);
+        alert('Erreur lors du sortie du groupe');
+      }
+    })
   }
  }

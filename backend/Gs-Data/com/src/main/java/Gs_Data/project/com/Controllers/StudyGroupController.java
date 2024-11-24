@@ -55,4 +55,19 @@ public class StudyGroupController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+
+    @GetMapping("/exit")
+    public ResponseEntity<?> leaveGroup(
+            @RequestParam("userId") Long userId,
+            @RequestParam("groupId") Long groupId) {
+        try {
+            studyGroupService.LeaveGroup(userId,groupId);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "you've exited the request group");
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
