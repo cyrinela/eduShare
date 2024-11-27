@@ -33,4 +33,13 @@ public class Ressource {
     private LocalDateTime creeLe;
     @UpdateTimestamp
     private LocalDateTime modifieLe;
+
+    /**/
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.EN_ATTENTE; // Default status
+
+    // Getters and setters
+    public enum Status {
+        EN_ATTENTE, ACCEPTE, REFUSE
+    }
 }

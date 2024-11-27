@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/ressources/address/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/ressources/updateress/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/ressources/delress/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/ressources/{id}/status**").hasAuthority("ADMIN")
                         .anyRequest().authenticated() )
                         .addFilterBefore(new JWTAuthorizationFilter(),
                             UsernamePasswordAuthenticationFilter.class);

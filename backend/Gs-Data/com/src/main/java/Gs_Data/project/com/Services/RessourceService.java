@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RessourceService {
@@ -125,5 +126,21 @@ public class RessourceService {
         // Combine results (you could remove duplicates if necessary)
         resourcesByName.addAll(resourcesByCategory);
         return resourcesByName;
+    }
+
+    /**/
+    public Ressource updateStatus(Long id, Ressource.Status status) {
+        Optional<Ressource> resourceOptional = ressourceRepository.findById(id);
+        if (resourceOptional.isPresent()) {
+            Ressource resource = resourceOptional.get();
+            resource.setStatus(status);
+            return ressourceRepository.save(resource);
+        }
+        throw new RuntimeException("Resource not found");
+    }
+    /**/
+    // Fetch accepted resources
+    public List<Ressource> getAcceptedResources() {
+        return ressourceRepository.findAllAcceptedResources();
     }
 }

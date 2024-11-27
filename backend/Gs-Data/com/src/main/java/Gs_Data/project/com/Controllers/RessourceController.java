@@ -107,5 +107,18 @@ public class RessourceController {
             return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
         }
     }
+
+    /**/
+    //@PutMapping("/{id}/status")
+    @RequestMapping(value="/{id}/status",method = RequestMethod.PUT)
+    public Ressource updateStatus(@PathVariable Long id, @RequestParam Ressource.Status status) {
+        return ressourceService.updateStatus(id, status);
+    }
+    /**/
+    // Get only accepted resources
+    @GetMapping("/accepted")
+    public List<Ressource> getAcceptedResources() {
+        return ressourceService.getAcceptedResources();
+    }
 }
 
