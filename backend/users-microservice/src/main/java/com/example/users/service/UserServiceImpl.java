@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User addRoleToUser(String username, String rolename) {
         User usr = userRep.findByUsername(username);
-        Role r = roleRep.findByRole(rolename);
+        Role r = findByRole(rolename);
         usr.getRoles().add(r);
         return usr;
     }
@@ -39,10 +39,10 @@ public class UserServiceImpl implements UserService{
     public User findUserByUsername(String username) {
         return userRep.findByUsername(username);
     }
-
+    @Override
+    public Role findByRole(String role) { return roleRep.findByRole(role); }
     @Override
     public List<User> findAllUsers() {
         return userRep.findAll();
     }
-
 }

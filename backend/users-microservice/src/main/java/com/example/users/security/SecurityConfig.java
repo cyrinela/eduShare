@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests)->requests
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/all").hasAuthority("ADMIN")
+                        .requestMatchers("/signup").permitAll()
                         .anyRequest().authenticated() )
 
 

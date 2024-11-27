@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserService {
     User saveUser(User user);
     User findUserByUsername (String username);
+    Role findByRole(String role);
     Role addRole(Role role);
     User addRoleToUser(String username, String rolename);
 

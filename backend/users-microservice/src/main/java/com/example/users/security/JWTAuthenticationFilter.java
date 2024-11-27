@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,11 +60,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         springUser.getAuthorities().forEach(au-> {
             roles.add(au.getAuthority());
         });
+        // set JWT
         String jwt = JWT.create().
                 withSubject(springUser.getUsername()).
                 withArrayClaim("roles", roles.toArray(new String[roles.size()])).
-                withExpiresAt(new Date(System.currentTimeMillis()+SecParams.EXP_TIME)).
+                //withExpiresAt(new Date(System.currentTimeMillis()+SecParams.EXP_TIME)).
                 sign(Algorithm.HMAC256(SecParams.SECRET));
+
+        // set Cookie
+        String cookieHeader = String.format(
+                "auth=%s; HttpOnly; Secure; Path=/; Max-Age=%d; SameSite=%s",
+                jwt, SecParams.EXP_TIME, "none"
+        );
+
+        response.setHeader("Set-Cookie", cookieHeader);
         response.addHeader("Authorization", jwt);
     }
 
