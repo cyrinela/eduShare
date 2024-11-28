@@ -5,10 +5,13 @@ import { Categorie } from '../model/categorie.model';
 import { Ressource } from '../model/ressource.model';
 
 const httpOptions = {
-  headers: new HttpHeaders( {'Content-Type': 'application/json'} )
+  headers: new HttpHeaders( {'Content-Type': 'application/json'} ),
+  withCredentials: true 
 };
 
-
+const PassCredentials = { 
+  withCredentials: true 
+}
 
 
 @Injectable({
@@ -26,15 +29,15 @@ export class RessourceService {
   constructor(private http : HttpClient) {}
 
   listeRessource(): Observable<Ressource[]>{
-    return this.http.get<Ressource[]>(this.apiURL);
+    return this.http.get<Ressource[]>(this.apiURL,PassCredentials);
   }
 
   listeCategories():Observable<Categorie[]>{
-    return this.http.get<Categorie[]>(this.apiURLCat);
+    return this.http.get<Categorie[]>(this.apiURLCat,PassCredentials);
   }
 
   searchRessources(query: string,searchCategorie: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiURL}/search?query=${query}&searchCategorie=${searchCategorie}`);
+    return this.http.get<any[]>(`${this.apiURL}/search?query=${query}&searchCategorie=${searchCategorie}`,PassCredentials);
   }
 
 
@@ -47,7 +50,7 @@ ajouterRessource(reso: Ressource, file: File) {
     formData.append('file', file);
 
 
-    return this.http.post(`${this.apiURL}/add`, formData);
+    return this.http.post(`${this.apiURL}/add`, formData,PassCredentials);
   }
 
 
@@ -57,33 +60,18 @@ uploadFile(file: File, fileUrlId: string): Observable<any> {
   formData.append('file', file);
   formData.append('fileUrlId', fileUrlId); // Append the resource ID or another identifier
 
-  return this.http.post(`${this.apiURL}/upload`, formData,
-    {
-      responseType: 'text',
-    });
+  return this.http.post(`${this.apiURL}/upload`, formData, PassCredentials);
 }
-
-
-  /*  supprimerRessource(id: number): Observable<any> {
-      const url = `${this.apiURL}/${id}`;
-      console.log(`Attempting to delete resource at: ${url}`);
-      return this.http.delete(url, httpOptions).pipe(
-          catchError(error => {
-              console.error('Erreur lors de la suppression:', error);
-              return throwError(error); // Rethrow the error for further handling
-          })
-      );
-  }*/
 
 supprimerRessource(id: number): Observable<any> {
       const url = `${this.apiURL}/${id}`;
       console.log(`Attempting to delete resource at: ${url}`);
-      return this.http.delete<any>(url);
+      return this.http.delete<any>(url,PassCredentials);
   }
 
 consulterRessource(id: number): Observable<Ressource> {
         const url = `${this.apiURL}/${id}`;
-        return this.http.get<Ressource>(url);
+        return this.http.get<Ressource>(url,PassCredentials);
 }
 
 trierRessources() {
@@ -101,13 +89,14 @@ trierRessources() {
 
 updateRessource(id: number, prod: Ressource) {
   const url = `${this.apiURL}/${id}`;
-  return this.http.put(url, prod);
+  return this.http.put(url, prod, PassCredentials);
 }
 
 downloadFile(id: number) {
     const url = `${this.apiURL}/download/${id}`;
     return this.http.get(url, {
-      responseType: 'blob' // This is important to handle binary data
+      responseType: 'blob', // This is important to handle binary data
+      withCredentials: true
     });
 }
 

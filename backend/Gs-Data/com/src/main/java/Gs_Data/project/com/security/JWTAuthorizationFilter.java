@@ -1,4 +1,4 @@
-package com.example.users.security;
+package Gs_Data.project.com.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -45,10 +45,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SecParams.SECRET)).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Gs_Data.project.com.security.SecParams.SECRET)).build();
 
         DecodedJWT decodedJWT = verifier.verify(jwt);
-
         String username = decodedJWT.getSubject();
         List<String> roles =
                 decodedJWT.getClaims().get("roles").asList(String.class);
@@ -62,5 +61,4 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(user);
         filterChain.doFilter(request, response);
     }
-
 }

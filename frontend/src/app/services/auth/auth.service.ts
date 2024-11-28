@@ -13,11 +13,17 @@ export class AuthService {
   constructor(private http : HttpClient) {}
 
   login(credentials: {username:string, password:string}):Observable<any> {
-    console.log(credentials);
-    
     return this.http.post(`${this.apiURL}/login`, credentials,
     { 
       withCredentials: true 
     });
+  }
+
+  signup(credentials: {username:string, password:string, roles: any}):Observable<any> {
+    return this.http.post(`${this.apiURL}/signup`, credentials,
+      { 
+        withCredentials: true 
+      }
+    );
   }
 }

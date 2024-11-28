@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class UsersMicroserviceApplication {
 	@Autowired
@@ -31,7 +33,7 @@ public class UsersMicroserviceApplication {
 
 		if (userService.findUserByUsername("admin") == null) {
 			//ajouter les users
-			userService.saveUser(new User(null, "admin", "123", true, null));
+			userService.saveUser(new User(null, "admin","123", true, null));
 			//ajouter les rôles aux users
 			userService.addRoleToUser("admin", "ADMIN");
 			userService.addRoleToUser("admin", "USER");

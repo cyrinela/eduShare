@@ -74,7 +74,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         );
 
         response.setHeader("Set-Cookie", cookieHeader);
-        response.addHeader("Authorization", jwt);
     }
 
 }

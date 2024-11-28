@@ -26,12 +26,13 @@ public class UserRestController {
     public ResponseEntity<?> addUser(@RequestBody User user) {
         try {
             userService.saveUser(user);
+            userService.addRoleToUser(user.getUsername(),"USER");
             return ResponseEntity.ok(
                     new HashMap<>().put("message", "User created")
             );
         }
         catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
     }
 }
