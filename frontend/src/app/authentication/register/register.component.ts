@@ -13,7 +13,10 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class RegisterComponent {
   firstname:string=""; lastname: string="";
+  email:string ="";
   password:string ="";
+  adminToken: string = "";
+  userPayload: any;
 
   // public method
   SignUpOptions = [
@@ -36,16 +39,46 @@ export class RegisterComponent {
   ) {}
 
   signup() {
-    this.authService.signup({
-      username: this.firstname.trim() + "_" + this.lastname.trim(),
-      password: this.password,
-      roles: []
-    }).subscribe({
+    // LOGIN AS ADMIN
+    this.authService.loginAdmin().subscribe({
       next: (success) => {
-        console.log("Account created", success);
+        
+        this.userPayload = 
+        {
+          username: this.firstname.trim() + " " + this.lastname.trim(),
+          firstName: this.firstname.trim(),
+          lastName:this.lastname.trim(),
+          email: this.email.trim(),
+          emailVerified: true,
+          enabled: true,
+          requiredActions: [],
+          groups: [],
+          credentials: [
+            {
+              type: "password",
+              value: this.password,
+              temporary: false
+            }
+          ]
+        };
+
+        this.adminToken = success.access_token;
+        
+        // CREATE USER
+        this.authService.signup(this.userPayload, this.adminToken)
+        .subscribe({
+          next: (success) => {
+            console.log("Account created");
+            // ASSIGN ROLE TO USER
+            this.authService.assignRole(this.adminToken,this.userPayload.username,"USER");
+          },
+          error: (err) => {
+            console.log("Error occured, account cannot be created!",err);
+          }
+        });
       },
       error: (err) => {
-        console.log("Error occured",err);
+        console.error("Internal Error occured, please try later");
       }
     })
   }

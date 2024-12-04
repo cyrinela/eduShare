@@ -37,7 +37,16 @@ export class LoginComponent {
   login() {
     this.authService.login({username:this.email,password:this.password}).subscribe({
       next: (success) => {
-        console.log("authentified", success);   
+        console.log("authentified");
+        // set HttpOnly Cookie
+        this.authService.createCookies(success.access_token).subscribe({
+          next: (success) => {
+            console.log("Cookie created", success);
+          },
+          error: (err) => {
+            console.log("error occured", err);
+          }
+        })
       },
       error: (err) => {
         console.log("error occured", err);
