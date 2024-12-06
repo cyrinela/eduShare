@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared.module';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -32,6 +32,7 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {}
 
   login() {
@@ -41,10 +42,19 @@ export class LoginComponent {
         // set HttpOnly Cookie
         this.authService.createCookies(success.access_token).subscribe({
           next: (success) => {
-            console.log("Cookie created", success);
+            if (success.status === 200) {
+              console.log("Cookie created", success);
+              alert("Redirecting to EduShare");
+            this.router.navigate(["/userpage"]);
+            } 
           },
           error: (err) => {
-            console.log("error occured", err);
+            if (err.status === 200) {
+              console.log("Cookie created", err);
+              alert("Redirecting to EduShare");
+            this.router.navigate(["/userpage"]);
+            }
+            else {console.log("error occured", err);}
           }
         })
       },

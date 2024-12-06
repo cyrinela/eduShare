@@ -5,6 +5,7 @@ import Gs_Data.project.com.Services.StudyGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class StudyGroupController {
 
     // API pour créer un groupe
     @PostMapping("/create/{audience}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public StudyGroup createGroup(
             @PathVariable String audience,
             @RequestBody StudyGroup group) {
@@ -32,18 +34,21 @@ public class StudyGroupController {
 
     // Méthode pour récupérer tous les groupes
     @GetMapping("/all")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public List<StudyGroup> getAllGroups() {
         return studyGroupService.getUnjoinedGroups();
     }
 
     // Méthode pour récupérermygrou les groupes joinée
     @GetMapping("/mygroups")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public List<StudyGroup> getJoinedGroups() {
         return studyGroupService.getJoinedGroups();
     }
 
     // Méthode pour rejoindre un groupe
     @PostMapping("/join/{groupId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> joinGroup(@PathVariable Long groupId,
                                     @RequestParam("userId") Long userId,
                                     @RequestParam("code") String code ) {
@@ -57,6 +62,7 @@ public class StudyGroupController {
     }
 
     @GetMapping("/exit")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> leaveGroup(
             @RequestParam("userId") Long userId,
             @RequestParam("groupId") Long groupId) {

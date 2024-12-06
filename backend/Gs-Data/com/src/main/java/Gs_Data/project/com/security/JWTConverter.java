@@ -1,4 +1,4 @@
-package com.example.users.security;
+package Gs_Data.project.com.security;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

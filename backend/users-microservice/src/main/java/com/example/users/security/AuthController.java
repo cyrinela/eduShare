@@ -17,18 +17,6 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
-    @GetMapping("/adminonly")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String messageAdmin() {
-        return "WELCOME ADMINOS";
-    }
-
-    @GetMapping("/userminimum")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public String messageUser() {
-        return "WELCOME USEROS";
-    }
-
     @GetMapping("/auth")
     public ResponseEntity<?> authentication (Principal userCredentials, HttpServletResponse response) {
         try {

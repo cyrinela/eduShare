@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -43,11 +44,13 @@ public class RessourceController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Ressource findById(@PathVariable Long id) {
         return ressourceService.findById(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
         if (ressourceService.Modify(id, ressource)) {
             Map<String, String> response = new HashMap<>();
@@ -68,6 +71,7 @@ public class RessourceController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void Delete(@PathVariable("id") Long id) {
         if (ressourceService.Delete(id)) {
             System.out.println("ressource supprimée");
@@ -78,6 +82,7 @@ public class RessourceController {
     }
 
     @GetMapping(path = "/download/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
         GridFsResource ResultFile = ressourceService.downloadFile(id);
         if (ResultFile != null) {
@@ -91,6 +96,7 @@ public class RessourceController {
 
 
     @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
                                          @RequestPart(name = "file") MultipartFile file) throws IOException {
         try {

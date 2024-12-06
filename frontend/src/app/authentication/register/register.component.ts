@@ -1,6 +1,6 @@
 // angular import
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared.module';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -36,6 +36,7 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {}
 
   signup() {
@@ -71,6 +72,9 @@ export class RegisterComponent {
             console.log("Account created");
             // ASSIGN ROLE TO USER
             this.authService.assignRole(this.adminToken,this.userPayload.username,"USER");
+            // alert status
+            alert("Account Created successfully");
+            this.router.navigate(["/auth/login"])
           },
           error: (err) => {
             console.log("Error occured, account cannot be created!",err);

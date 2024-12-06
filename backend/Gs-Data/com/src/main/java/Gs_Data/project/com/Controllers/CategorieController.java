@@ -5,6 +5,7 @@ import Gs_Data.project.com.Services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class CategorieController {
     }
 
     @PostMapping("/modify/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> modify(@RequestBody Categorie categorie,@PathVariable Long id) {
         if (categorieService.Modify(id,categorie)) {
             return ResponseEntity.ok("Categorie modified");
@@ -34,6 +36,7 @@ public class CategorieController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         if (categorieService.Delete(id)) {
             return ResponseEntity.ok("Categorie deleted");
@@ -42,6 +45,7 @@ public class CategorieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addCategory(@RequestBody Categorie categorie) {
         Categorie createdCategory = categorieService.save(categorie);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
