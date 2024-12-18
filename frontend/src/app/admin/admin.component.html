@@ -125,6 +125,7 @@
 
 
         <div class="table-data">
+          <!--
             <div class="order">
                 <div class="head">
                     <h3>Recent Orders</h3>
@@ -183,7 +184,58 @@
                     </tbody>
                 </table>
             </div>
-            <div class="todo">
+
+
+              <div *ngIf="users.length > 0" class="order">
+                <div class="head">
+                  <h3>Recent Users</h3>
+                  <i class="bx bx-search"></i>
+                  <i class="bx bx-filter"></i>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of users">
+                      <td>
+                        <img src="img/people.png" alt="User Image">
+                        <p>{{ user.username }}</p>
+                      </td>
+                      <td>
+                        <button (click)="activateUser(user.id)">Activate</button>
+                        <button (click)="deactivateUser(user.id)">Deactivate</button>
+                        <button (click)="deleteUser(user.id)">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+ -->
+
+
+ <div  class="todo">
+   <div class="head">
+     <h3>Users</h3>
+     <i class='bx bx-plus'></i>
+     <i class='bx bx-filter'></i>
+   </div>
+   <ul class="todo-list">
+     <li *ngFor="let user of users" [ngClass]="{'completed': user.status === 'active', 'not-completed': user.status !== 'active'}">
+       <p>{{ user.username }}</p>
+       <i class='bx bx-dots-vertical-rounded'></i>
+       <button (click)="activateUser(user.id)">Activate</button>
+       <button (click)="deactivateUser(user.id)">Deactivate</button>
+       <button (click)="deleteUser(user.id)">Delete</button>
+     </li>
+   </ul>
+ </div>
+
+
+      <!--<div class="todo">
                 <div class="head">
                     <h3>Todos</h3>
                     <i class='bx bx-plus' ></i>
@@ -212,7 +264,9 @@
                     </li>
                 </ul>
             </div>
-        </div>
+
+      -->
+    </div>
     </main>
     <!-- MAIN -->
 </section>
