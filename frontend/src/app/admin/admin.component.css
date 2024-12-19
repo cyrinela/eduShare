@@ -400,7 +400,7 @@ body {
 	color: var(--dark);
 }
 #content main .box-info li .text p {
-	color: var(--dark);	
+	color: var(--dark);
 }
 
 
@@ -589,4 +589,47 @@ body {
 	#content main .table-data .todo .todo-list {
 		min-width: 420px;
 	}
+
+
+  /* General button styling */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+/* Style for Activate button */
+button.activate {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+button.activate:hover {
+  background-color: #45a049;
+}
+
+/* Style for Deactivate button */
+button.deactivate {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+button.deactivate:hover {
+  background-color: #da190b;
+}
+
+/* Style for Delete button */
+button.delete {
+  background-color: #ff9800; /* Orange */
+  color: white;
+}
+
+button.delete:hover {
+  background-color: #f57c00;
+}
+
 }

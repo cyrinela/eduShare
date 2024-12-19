@@ -1,39 +1,49 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { environment } from '../environment.dev';
 import { KeycloakService } from './../services/keycloak.service';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, HttpClientModule], // Include CommonModule and HttpClientModule
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
 })
 @Injectable({
-  providedIn: 'root',  // Ensure the service is provided globally
+  providedIn: 'root',
 })
 export class AdminComponent implements OnInit {
   users: any[] = [];
+  totalUsers: number = 0;
+  activeUsers: number = 0;
+  deactivatedUsers: number = 0;
+  searchTerm: string = '';
+
   private tokenUrl: string = `${environment.KeyCloakDomain}/realms/${environment.RealmName}/protocol/openid-connect/token`;
   private clientId: string = 'edushare_client';
   private clientSecret: string = '3SdEXFK7RcefOwqXMlAjGOyJ4958mua6';
-
-  keycloakAdminUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users`;
+  private keycloakAdminUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users`;
 
   private token: string = '';
+  private searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService) {}
 
   ngOnInit(): void {
     this.getAccessToken().then(() => {
       this.loadUsers();
+      this.searchSubject.pipe(debounceTime(300)).subscribe((term: string) => {
+        this.searchUsers(term);
+      });
     });
   }
 
-  // Get access token from Keycloak
-  private getAccessToken(): Promise<void> {
+  private async getAccessToken(): Promise<void> {
     const payload = new URLSearchParams();
     payload.set('grant_type', 'client_credentials');
     payload.set('client_id', this.clientId);
@@ -41,104 +51,88 @@ export class AdminComponent implements OnInit {
 
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return new Promise((resolve, reject) => {
-      this.http
-        .post<any>(this.tokenUrl, payload.toString(), { headers })
-        .subscribe(
-          (response) => {
-            this.token = response.access_token;
-            resolve();
-          },
-          (error) => {
-            console.error('Error getting access token:', error);
-            reject(error);
-          }
-        );
-    });
+    try {
+      const response = await this.http.post<any>(this.tokenUrl, payload.toString(), { headers }).toPromise();
+      this.token = response.access_token;
+    } catch (error) {
+      console.error('Error getting access token:', error);
+      alert('Failed to get access token. Please try again.');
+    }
   }
 
-  // Load all users from Keycloak
   private loadUsers(): void {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    this.http
-      .get<any[]>(this.keycloakAdminUrl, { headers })
-      .subscribe(
-        (users) => {
-          this.users = users;
-        },
-        (error) => {
-          console.error('Error loading users:', error);
-        }
-      );
-  }
-
-  // Activate a user
-  activateUser(userId: string): void {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const activateUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}/enable`;
-
-    this.http
-      .put(activateUrl, {}, { headers })
-      .subscribe(
-        () => {
-          this.loadUsers();
-        },
-        (error) => {
-          console.error('Error activating user:', error);
-        }
-      );
-  }
-
-  // Deactivate a user
-  deactivateUser(userId: string): void {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const deactivateUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}/disable`;
-
-    this.http
-      .put(deactivateUrl, {}, { headers })
-      .subscribe(
-        () => {
-          this.loadUsers();
-        },
-        (error) => {
-          console.error('Error deactivating user:', error);
-        }
-      );
-  }
-
-  // Delete a user
-  /*
-  deleteUser(userId: string): void {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const deleteUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}`;
-
-    this.http
-      .delete(deleteUrl, { headers })
-      .subscribe(
-        () => {
-          this.loadUsers();
-        },
-        (error) => {
-          console.error('Error deleting user:', error);
-        }
-      );
-  }*/
-      deleteUser(userId: string): void {
-        const confirmDelete = window.confirm('Are you sure you want to delete this user?');
-        if (confirmDelete) {
-          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-          const deleteUrl = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}`;
-
-          this.http
-            .delete(deleteUrl, { headers })
-            .subscribe(
-              () => {
-                this.loadUsers();
-              },
-              (error) => {
-                console.error('Error deleting user:', error);
-              }
-            );
-        }
+    this.http.get<any[]>(this.keycloakAdminUrl, { headers }).subscribe(
+      (users) => {
+        this.users = users;
+        this.calculateUserStats();
+      },
+      (error) => {
+        console.error('Error loading users:', error);
+        alert('Failed to load users. Please try again.');
       }
+    );
+  }
+
+  private calculateUserStats(): void {
+    this.totalUsers = this.users.length;
+    this.activeUsers = this.users.filter((user) => user.enabled).length;
+    this.deactivatedUsers = this.totalUsers - this.activeUsers;
+  }
+
+  activateUser(userId: string): void {
+    const url = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}`;
+    const body = { enabled: true };  // Set 'enabled' to true to activate the user.
+    this.confirmAction('activate', userId, url, 'put', body);
+  }
+
+  deactivateUser(userId: string): void {
+    const url = `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}`;
+    const body = { enabled: false };  // Set 'enabled' to false to deactivate the user.
+
+    this.confirmAction('deactivate', userId, url, 'put', body);
+  }
+
+  deleteUser(userId: string): void {
+    this.confirmAction('delete', userId, `${environment.KeyCloakDomain}/admin/realms/${environment.RealmName}/users/${userId}`, 'delete');
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchTerm = searchValue;
+    this.searchSubject.next(searchValue);  // Emit the search term to trigger the debounce
+  }
+
+  searchUsers(term: string): void {
+    term = term.trim().toLowerCase();
+    if (term) {
+      this.users = this.users.filter(user => user.username.toLowerCase().includes(term));
+    } else {
+      this.loadUsers();
+    }
+  }
+
+  private confirmAction(action: string, userId: string, url: string, method: 'put' | 'delete' = 'put', body: any = {}): void {
+    const confirmMessage = `Are you sure you want to ${action} this user?`;
+    if (window.confirm(confirmMessage)) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+      const request = method === 'put' ? this.http.put(url, body, { headers }) : this.http.delete(url, { headers });
+
+      request.subscribe(
+        () => {
+          alert(`User ${action}d successfully!`);
+          this.loadUsers();  // Reload the users after action
+        },
+        (error) => {
+          console.error(`Error ${action}ing user:`, error);
+          if (error.status === 401) {
+            alert('Unauthorized action. Please check your permissions.');
+          } else if (error.status === 404) {
+            alert('User not found. Please try again.');
+          } else {
+            alert(`Failed to ${action} user. Please try again later.`);
+          }
+        }
+      );
+    }
+  }
 }

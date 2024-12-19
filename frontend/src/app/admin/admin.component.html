@@ -62,8 +62,9 @@
         <a href="#" class="nav-link">Categories</a>
         <form action="#">
             <div class="form-input">
-                <input type="search" placeholder="Search...">
+                <input type="search"  [(ngModel)]="searchTerm" placeholder="Search users..."  placeholder="Search...">
                 <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+
             </div>
         </form>
         <input type="checkbox" id="switch-mode" hidden>
@@ -95,126 +96,37 @@
             </div>
             <a href="#" class="btn-download">
                 <i class='bx bxs-cloud-download' ></i>
-                <span class="text">Download PDF</span>
+                <span class="static-icon">Static</span>
             </a>
         </div>
 
         <ul class="box-info">
             <li>
-                <i class='bx bxs-calendar-check' ></i>
-                <span class="text">
-                    <h3>1020</h3>
-                    <p>New Order</p>
-                </span>
-            </li>
-            <li>
                 <i class='bx bxs-group' ></i>
                 <span class="text">
-                    <h3>2834</h3>
-                    <p>Visitors</p>
+                    <h3>{{ totalUsers }}</h3>
+                    <p>Total Users</p>
                 </span>
             </li>
             <li>
-                <i class='bx bxs-dollar-circle' ></i>
+                <i class='bx bxs-check-circle' ></i>
                 <span class="text">
-                    <h3>2543</h3>
-                    <p>Total Ressources</p>
+                    <h3>{{ activeUsers }}</h3>
+                    <p>Active Users</p>
+                </span>
+            </li>
+            <li>
+                <i class='bx bxs-x-circle' ></i>
+                <span class="text">
+                    <h3>{{ deactivatedUsers }}</h3>
+                    <p>Deactivated Users</p>
                 </span>
             </li>
         </ul>
 
 
         <div class="table-data">
-          <!--
-            <div class="order">
-                <div class="head">
-                    <h3>Recent Orders</h3>
-                    <i class='bx bx-search' ></i>
-                    <i class='bx bx-filter' ></i>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Date Order</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status process">Process</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status completed">Completed</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
-
-              <div *ngIf="users.length > 0" class="order">
-                <div class="head">
-                  <h3>Recent Users</h3>
-                  <i class="bx bx-search"></i>
-                  <i class="bx bx-filter"></i>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Username</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let user of users">
-                      <td>
-                        <img src="img/people.png" alt="User Image">
-                        <p>{{ user.username }}</p>
-                      </td>
-                      <td>
-                        <button (click)="activateUser(user.id)">Activate</button>
-                        <button (click)="deactivateUser(user.id)">Deactivate</button>
-                        <button (click)="deleteUser(user.id)">Delete</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
- -->
 
 
  <div  class="todo">
@@ -227,45 +139,16 @@
      <li *ngFor="let user of users" [ngClass]="{'completed': user.status === 'active', 'not-completed': user.status !== 'active'}">
        <p>{{ user.username }}</p>
        <i class='bx bx-dots-vertical-rounded'></i>
-       <button (click)="activateUser(user.id)">Activate</button>
-       <button (click)="deactivateUser(user.id)">Deactivate</button>
-       <button (click)="deleteUser(user.id)">Delete</button>
+       <button (click)="activateUser(user.id)" class="btn btn-success">Activate</button>
+       <button (click)="deactivateUser(user.id)" class="btn btn-warning">Deactivate</button>
+       <button (click)="deleteUser(user.id)" class="btn btn-danger">Delete</button>
+
+
      </li>
    </ul>
  </div>
 
 
-      <!--<div class="todo">
-                <div class="head">
-                    <h3>Todos</h3>
-                    <i class='bx bx-plus' ></i>
-                    <i class='bx bx-filter' ></i>
-                </div>
-                <ul class="todo-list">
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded' ></i>
-                    </li>
-                </ul>
-            </div>
-
-      -->
     </div>
     </main>
     <!-- MAIN -->
