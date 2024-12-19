@@ -18,6 +18,7 @@ public class Ressource {
     private Long id;
     private String nom;
     private String description;
+    private String status = "en attend";
 
     @ManyToOne
     @JoinColumn(name = "categorie_id")

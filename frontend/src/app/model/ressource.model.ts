@@ -7,5 +7,6 @@ export class Ressource {
   creeLe! : Date ;
   categorie! : Categorie;
   fileMetaData!: fileMetaData;
+  status!: string;
   //comments?: Commentaire[];
 }

@@ -40,9 +40,6 @@ export class RegisterComponent {
   ) {}
 
   signup() {
-    // LOGIN AS ADMIN
-    this.authService.loginAdmin().subscribe({
-      next: (success) => {
         
         this.userPayload = 
         {
@@ -62,28 +59,31 @@ export class RegisterComponent {
             }
           ]
         };
-
-        this.adminToken = success.access_token;
         
         // CREATE USER
-        this.authService.signup(this.userPayload, this.adminToken)
-        .subscribe({
+        this.authService.signup(this.userPayload).subscribe({
           next: (success) => {
-            console.log("Account created");
-            // ASSIGN ROLE TO USER
-            this.authService.assignRole(this.adminToken,this.userPayload.username,"USER");
-            // alert status
-            alert("Account Created successfully");
-            this.router.navigate(["/auth/login"])
+              console.log("Account created");
+              // alert status
+              alert("Account Created successfully");
+              // navigate to login page
+              this.router.navigate(["/login"])
           },
           error: (err) => {
-            console.log("Error occured, account cannot be created!",err);
+            if (err.status === 200) {
+              console.log("Account created");
+              // alert status
+              alert("Account Created successfully");
+              // navigate to login page
+              this.router.navigate(["/login"])
+            } else {
+              console.log("Error occured, account cannot be created!",err);
+            }
           }
         });
-      },
-      error: (err) => {
-        console.error("Internal Error occured, please try later");
-      }
-    })
+  }
+
+  IdPLogin(provider:string) {
+    this.authService.RiderectIdPLogin(provider);
   }
 }

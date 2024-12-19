@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent {
   email:string = "";
   password:string = "";
@@ -38,30 +39,43 @@ export class LoginComponent {
   login() {
     this.authService.login({username:this.email,password:this.password}).subscribe({
       next: (success) => {
-        console.log("authentified");
-        // set HttpOnly Cookie
-        this.authService.createCookies(success.access_token).subscribe({
-          next: (success) => {
-            if (success.status === 200) {
-              console.log("Cookie created", success);
-              alert("Redirecting to EduShare");
-            this.router.navigate(["/userpage"]);
-            } 
-          },
-          error: (err) => {
-            if (err.status === 200) {
-              console.log("Cookie created", err);
-              alert("Redirecting to EduShare");
-            this.router.navigate(["/userpage"]);
+          console.log("authentified");
+          // SAVE USER INFO TO LOCAL STORAGE
+          this.authService.getUserInfo(this.email).subscribe({
+            next : (success) => {
+              console.log(success);
+              localStorage.setItem('userInfo', JSON.stringify(success));
+            },
+            error: (err) => {
+              console.log(err);
             }
-            else {console.log("error occured", err);}
-          }
-        })
+          })
+          alert("Redirecting to EduShare");
+          this.router.navigate(["/userpage"]);
       },
       error: (err) => {
-        console.log("error occured", err);
+        if (err.status === 200) {
+          console.log("authentified");
+          // SAVE USER INFO TO LOCAL STORAGE
+          this.authService.getUserInfo(this.email).subscribe({
+            next : (success) => {
+              console.log(success);
+              localStorage.setItem('userInfo', JSON.stringify(success));
+            },
+            error: (err) => {
+              console.log(err);
+            }
+          })
+          alert("Redirecting to EduShare");
+          this.router.navigate(["/userpage"]);
+        }else {
+          console.log("error occured", err);
+        }
       }
     })
   }
 
+  IdPLogin(provider:string) {
+    this.authService.RiderectIdPLogin(provider);
+  }
 }
