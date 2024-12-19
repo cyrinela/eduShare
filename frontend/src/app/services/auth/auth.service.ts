@@ -51,7 +51,24 @@ export class AuthService {
     }
   }
 
-  getUserInfo(userName:string) {
+  getUserInfo(userName:string) : Observable<any> {
     return this.http.get<any>(`${this.apiURL}/userinfo?username=${userName}`);
   }
+
+  resetPassword(newPassword : any) : Observable<any> {
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
+    return this.http.post(`${this.apiURL}/user/resetpassword?userId=${userId}`, newPassword);
+  }
+
+  modifyUser(newData : any) : Observable<any> {
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
+    return this.http.post(`${this.apiURL}/user/modify?userId=${userId}`, newData);
+  }
+
+  logout():Observable<any> {
+    return this.http.get(`${this.apiURL}/user/logout`, {
+      withCredentials : true
+    } );
+  }
+
 }

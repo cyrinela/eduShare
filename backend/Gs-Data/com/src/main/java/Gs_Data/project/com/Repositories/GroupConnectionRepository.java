@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface GroupConnectionRepository extends JpaRepository<GroupConnection, CompositeKey> {
     @Query("SELECT e FROM GroupConnection e WHERE e.userId <> :userId AND e.groupId NOT IN (SELECT e2.groupId FROM GroupConnection e2 WHERE e2.userId = :userId)")
-    List<GroupConnection> findByUserIdNot(@Param("userId") Long userId);
+    List<GroupConnection> findByUserIdNot(@Param("userId") String userId);
 
-    List<GroupConnection> findByUserId(Long userId);
+    List<GroupConnection> findByUserId(String userId);
 
-    void deleteByUserIdAndGroupId(Long UserId, Long groupId);
+    void deleteByUserIdAndGroupId(String UserId, Long groupId);
 }

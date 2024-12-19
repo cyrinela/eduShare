@@ -27,7 +27,8 @@ export class StudentaddgroupComponent {
     if (this.groupName && this.groupDescription) {
       const newGroup = {
         name: this.groupName,
-        description: this.groupDescription
+        description: this.groupDescription,
+        userId: JSON.parse(localStorage.getItem('userInfo')!).id
       };
 
       if ((document.getElementById("privateRadio") as HTMLInputElement).checked) {

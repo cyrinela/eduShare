@@ -19,13 +19,5 @@ export class UserpageComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // save user info
-    // this.authService.getUserInfo(this.userPayload.userName).subscribe({
-    //   next: (success) => {
-    //     localStorage.setItem('userInfo', JSON.stringify(success[0]))
-    //     console.log(success);
-        
-    //   }
-    // })
   }
 }

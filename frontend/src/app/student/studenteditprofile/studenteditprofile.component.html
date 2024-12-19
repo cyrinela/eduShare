@@ -6,39 +6,7 @@
     <!-- =======================
     Page content START -->
     <section class="container">
-        <!-- Sidebar START -->
-         <div class="col-xl-3">
-                <!-- Responsive offcanvas body START -->
-                <div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar">
-                    <!-- Offcanvas header -->
-                    <div class="offcanvas-header bg-light">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">My profile</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
-                    </div>
-                    <!-- Offcanvas body -->
-                    <div class="offcanvas-body p-3 p-xl-0">
-                        <div class="bg-dark border rounded-3 pb-0 p-3 w-100">
-                            <!-- Dashboard menu -->
-                            <div class="list-group-dark list-group-borderless">
-                                <a class="list-group-item active" href="studentdashboard"><i class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
-                                <a class="list-group-item" href="studentdashboard"><i class="bi bi-basket fa-fw me-2"></i>My ressources</a>
-
-                                <a class="list-group-item" href="studentdash"><i class="bi bi-graph-up fa-fw me-2"></i>Earnings</a>
-
-
-                                <a class="list-group-item" href="studentreviews"><i class="bi bi-star fa-fw me-2"></i>Reviews</a>
-                                <a class="list-group-item" href="studenteditprofile"><i class="bi bi-pencil-square fa-fw me-2"></i>Edit Profile</a>
-                                <a class="list-group-item" href="instructor-payout.html"><i class="bi bi-wallet2 fa-fw me-2"></i>Notifications</a>
-                                <a class="list-group-item" href="studentgroups"><i class="bi bi-gear fa-fw me-2"></i>Groups</a>
-                                <a class="list-group-item" href="studentaddgroup"><i class="bi bi-trash fa-fw me-2"></i>Add Group</a>
-                                <a class="list-group-item text-danger bg-danger-soft-hover" href="sign-in.html"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Responsive offcanvas body END -->
-            </div>
-        <!-- Sidebar END -->
+        <app-student-sidenav/>
     
       <!-- Main content START -->
       <div class="col-xl-9">
@@ -75,7 +43,7 @@
                         <label class="form-label">Full name</label>
                         <div class="input-group">
                             <input type="text" class="form-control" value="Lori" placeholder="First name" name="firstName" [(ngModel)]="userData.firstName">
-                            <input type="text" class="form-control" value="Stevens" placeholder="Last name">
+                            <input type="text" class="form-control" value="Stevens" placeholder="Last name" name="lastName" [(ngModel)]="userData.lastName">
                         </div>
                     </div>
 
@@ -83,29 +51,29 @@
                     <div class="col-md-6">
                         <label class="form-label">Username</label>
                         <div class="input-group">
-                            <span class="input-group-text">Eduport.com</span>
-                            <input type="text" class="form-control" value="loristev">
+                            <span class="input-group-text">ID</span>
+                            <input disabled type="text" class="form-control" value="loristev" name="username" [(ngModel)]="userData.username">
                         </div>
                     </div>
 
                     <!-- Email id -->
                     <div class="col-md-6">
-                        <label class="form-label">Email id</label>
-                        <input class="form-control" type="email" value="example@gmail.com" placeholder="Email">
+                        <label class="form-label">Email</label>
+                        <input class="form-control" type="email" value="example@gmail.com" name="email" placeholder="Email" [(ngModel)]="userData.email">
                     </div>
 
 
                     <!-- Education -->
                     <div class="col-12">
-                        <label class="form-label">Education</label>
-                        <input class="form-control mb-2" type="text" value="Bachelor in Computer Graphics">
-                        <input class="form-control mb-2" type="text" value="Masters in Computer Graphics">
+                        <label class="form-label">Password Reset</label>
+                        <input class="form-control mb-2" type="password" value="" placeholder="Enter New Password" name="newPass" [(ngModel)]="newPass"><br>
+                        <input class="form-control mb-2" type="password" value="" placeholder="Re-type your password" name="resNewPass" [(ngModel)]="resNewPass">
 
                     </div>
 
                     <!-- Save button -->
                     <div class="d-sm-flex justify-content-end">
-                        <button type="button" class="btn btn-primary mb-0">Save changes</button>
+                        <button type="button" class="btn btn-primary mb-0" (click)="saveChanges()">Save changes</button>
                     </div>
                 </form>
             </div>

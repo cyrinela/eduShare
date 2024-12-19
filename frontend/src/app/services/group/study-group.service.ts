@@ -16,16 +16,27 @@ export class StudyGroupService {
   constructor(private http: HttpClient) {}
 
   // Méthode pour créer un groupe
-  createGroup(group: { name: string; description: string}, audience : string): Observable<any> {
+  createGroup(group: { name: string; description: string, userId: string}, audience : string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/create/${audience}`, group, PassCredentials);
   }
    // Méthode pour récupérer tous les groupes
    getAllGroups(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/all`, PassCredentials);
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
+    // set Payload data
+    const payload = new FormData();
+    payload.append('userId', userId);
+
+    return this.http.post<any[]>(`${this.apiUrl}/all`,payload ,PassCredentials);
   }
 
+  // Méthode pour récupérer les groupes joinée
   getMyGroups(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/mygroups`, PassCredentials);
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
+    // set Payload data
+    const payload = new FormData();
+    payload.append('userId', userId);
+
+    return this.http.post<any[]>(`${this.apiUrl}/mygroups`,payload ,PassCredentials);
   }
 
   // Méthode pour rejoindre un groupe
@@ -33,7 +44,7 @@ export class StudyGroupService {
     return this.http.post(`${this.apiUrl}/join/${groupId}`, body, PassCredentials);
   }
 
-  leaveGroup(userId: number, groupId: number) {
+  leaveGroup(userId: string, groupId: number) {
     return this.http.get(`${this.apiUrl}/exit?userId=${userId}&groupId=${groupId}`, PassCredentials);
   }
 }

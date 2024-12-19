@@ -14,7 +14,7 @@ import lombok.Setter;
 @IdClass(CompositeKey.class)
 public class GroupConnection {
     @EmbeddedId
-    private Long userId;
+    private String userId;
 
     @EmbeddedId
     private Long groupId;

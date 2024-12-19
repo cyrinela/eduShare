@@ -27,13 +27,13 @@ public class StudyGroupService {
 
         StudyGroup Res = studyGroupRepository.save(group);
         // add to user to its created group
-        groupConnectionRepository.save(new GroupConnection(1L,Res.getId()));
+        groupConnectionRepository.save(new GroupConnection(group.getUserId(),Res.getId()));
         return Res;
     }
 
     // Récupérer tous les autre groupes
-    public List<StudyGroup> getUnjoinedGroups() {
-        List<GroupConnection> Connections = groupConnectionRepository.findByUserIdNot(1L); // replace userId later
+    public List<StudyGroup> getUnjoinedGroups(String userId) {
+        List<GroupConnection> Connections = groupConnectionRepository.findByUserIdNot(userId); // replace userId later
         List result = new ArrayList<StudyGroup>();
         for (GroupConnection Connection : Connections) {
             result.add(studyGroupRepository.findById(Connection.getGroupId()));
@@ -42,8 +42,8 @@ public class StudyGroupService {
     }
 
     // Récupérer tous les groupes joinée
-    public List<StudyGroup> getJoinedGroups() {
-        List<GroupConnection> Connections = groupConnectionRepository.findByUserId(1L); // replace userId later
+    public List<StudyGroup> getJoinedGroups(String userId) {
+        List<GroupConnection> Connections = groupConnectionRepository.findByUserId(userId); // replace userId later
         List result = new ArrayList<StudyGroup>();
         for (GroupConnection Connection : Connections) {
             result.add(studyGroupRepository.findById(Connection.getGroupId()));
@@ -52,7 +52,7 @@ public class StudyGroupService {
     }
 
     // Rejoindre un groupe
-    public boolean joinGroup(Long groupId,String code,Long userId) {
+    public boolean joinGroup(Long groupId,String code,String userId) {
         StudyGroup group = studyGroupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Groupe non trouvé"));
         if (group.getCode().matches(code)) {
@@ -62,7 +62,7 @@ public class StudyGroupService {
         return false;
     }
 
-    public void LeaveGroup(Long userId, Long groupId) {
+    public void LeaveGroup(String userId, Long groupId) {
         groupConnectionRepository.deleteByUserIdAndGroupId(userId, groupId);
     }
 

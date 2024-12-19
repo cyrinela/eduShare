@@ -3,7 +3,6 @@ package com.example.users.security;
 import com.example.users.entities.AuthResponse;
 import com.example.users.entities.User;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,13 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +76,21 @@ public class KeycloakService {
             String cookieHeader = String.format(
                     "auth=%s; HttpOnly; Secure; Path=/; Max-Age=%d; SameSite=%s",
                     authResponse.getAccessToken(), authResponse.getExpiresIn(), "none"
+            );
+
+            response.setHeader("Set-Cookie", cookieHeader);
+            return ResponseEntity.ok("Cookie created successfully");
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error occurred,\nCannot extract cookie from request!\n" + e);
+        }
+    }
+
+    public ResponseEntity<?> DeleteCookies(String CookieName, HttpServletResponse response) {
+        try {
+            String cookieHeader = String.format(
+                    "%s=''; HttpOnly; Secure; Path=/; Max-Age=%d; SameSite=%s",
+                    CookieName, 0, "none"
             );
 
             response.setHeader("Set-Cookie", cookieHeader);
@@ -191,5 +200,45 @@ public class KeycloakService {
                             result.put("email", firstObject.get("email"));
                             return Mono.just(result);
                 });
+    }
+
+    public Map ResetPassword(Map<String, Object> Payload, String userId, String AdminToken) {
+        return webClient.put()
+                .uri("""
+                       /admin/realms/%s/users/%s/reset-password""".formatted(RealmName, userId))
+                .header("Content-Type", "application/json") // Explicitly set Content-Type to JSON
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + AdminToken)
+                .bodyValue(Payload)    // Set the JSON body
+                .retrieve()
+                .onStatus(
+                        status -> status.isError(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .flatMap(body -> {
+                                    // Log the error response
+                                    System.err.println("Keycloak error: " + body);
+                                    return Mono.error(new RuntimeException("Error occured: " + body));
+                                })
+                )
+                .bodyToMono(Map.class).block();
+    }
+
+    public Map ModifyUser(Map<String, Object> Payload, String userId, String AdminToken) {
+        return webClient.put()
+                .uri("""
+                       /admin/realms/%s/users/%s""".formatted(RealmName, userId))
+                .header("Content-Type", "application/json") // Explicitly set Content-Type to JSON
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + AdminToken)
+                .bodyValue(Payload)    // Set the JSON body
+                .retrieve()
+                .onStatus(
+                        status -> status.isError(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .flatMap(body -> {
+                                    // Log the error response
+                                    System.err.println("Keycloak error: " + body);
+                                    return Mono.error(new RuntimeException("Error occured: " + body));
+                                })
+                )
+                .bodyToMono(Map.class).block();
     }
 }

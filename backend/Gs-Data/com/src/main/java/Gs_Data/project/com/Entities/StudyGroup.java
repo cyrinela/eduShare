@@ -21,5 +21,5 @@ public class StudyGroup {
     private String description;
     private String code;
     
-    private Long userId = 1L; // Valeur par défaut pour userId
+    private String userIduse; // Valeur par défaut pour userId
 }

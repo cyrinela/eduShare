@@ -28,6 +28,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/user/signup").permitAll()
                         .requestMatchers("/callback").permitAll()
                         .requestMatchers("/userinfo").permitAll()
+                        .requestMatchers("/user/resetpassword").permitAll()
+                        .requestMatchers("/user/modify").permitAll()
+                        .requestMatchers("/user/logout").permitAll()
                         .anyRequest().authenticated());
         http.oauth2ResourceServer(ors -> ors.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtConverter)));
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

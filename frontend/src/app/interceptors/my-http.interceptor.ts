@@ -16,6 +16,7 @@ export function myHttpInterceptor(req: HttpRequest<unknown>,next: HttpHandlerFn)
         // (Unauthorized status)
         const isCookieEmpty = !document.cookie.split('; ').find((row) => row.startsWith('auth='));
         if (error.status === 401 && isCookieEmpty) {
+          localStorage.clear();
           alert("Account needed to access EduShare.\n Please check your authentication.");
           router.navigate(['/login']);
         }

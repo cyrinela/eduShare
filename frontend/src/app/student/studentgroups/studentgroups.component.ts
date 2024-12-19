@@ -48,7 +48,7 @@ export class StudentgroupsComponent {
 
   // Méthode pour rejoindre un groupe
   joinGroup(groupId: number) {
-    const userId = "1";// ID de l'utilisateur, à remplacer selon la logique d'authentification
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
     let GroupCode = (document.getElementById(`code-${groupId}`) as HTMLInputElement).value;
     let FormDataBody = new FormData();
     FormDataBody.append("userId",userId);
@@ -68,7 +68,7 @@ export class StudentgroupsComponent {
   }
 
   leaveGroup(groupId: number) {
-    const userId = 1;// ID de l'utilisateur, à remplacer selon la logique d'authentification
+    const userId = JSON.parse(localStorage.getItem('userInfo')!).id;
 
     this.studyGroupService.leaveGroup(userId,groupId).subscribe({
       next: (response) => {

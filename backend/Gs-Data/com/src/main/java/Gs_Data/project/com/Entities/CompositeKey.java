@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Embeddable
 public class CompositeKey implements Serializable {
     @Column(name = "userId",nullable = false)
-    private Long userId;
+    private String userId;
     @Column(name = "groupId",nullable = false)
     private Long groupId;
 }

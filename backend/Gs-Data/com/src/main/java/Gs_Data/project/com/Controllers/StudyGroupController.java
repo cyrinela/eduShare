@@ -33,24 +33,24 @@ public class StudyGroupController {
     }
 
     // Méthode pour récupérer tous les groupes
-    @GetMapping("/all")
+    @PostMapping("/all")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public List<StudyGroup> getAllGroups() {
-        return studyGroupService.getUnjoinedGroups();
+    public List<StudyGroup> getAllGroups(@RequestParam String userId) {
+        return studyGroupService.getUnjoinedGroups(userId);
     }
 
     // Méthode pour récupérermygrou les groupes joinée
-    @GetMapping("/mygroups")
+    @PostMapping("/mygroups")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public List<StudyGroup> getJoinedGroups() {
-        return studyGroupService.getJoinedGroups();
+    public List<StudyGroup> getJoinedGroups(@RequestParam String userId) {
+        return studyGroupService.getJoinedGroups(userId);
     }
 
     // Méthode pour rejoindre un groupe
     @PostMapping("/join/{groupId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> joinGroup(@PathVariable Long groupId,
-                                    @RequestParam("userId") Long userId,
+                                    @RequestParam("userId") String userId,
                                     @RequestParam("code") String code ) {
         // Appel du service pour rejoindre un groupe
         if (studyGroupService.joinGroup(groupId,code, userId)) {
@@ -64,7 +64,7 @@ public class StudyGroupController {
     @GetMapping("/exit")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> leaveGroup(
-            @RequestParam("userId") Long userId,
+            @RequestParam("userId") String userId,
             @RequestParam("groupId") Long groupId) {
         try {
             studyGroupService.LeaveGroup(userId,groupId);

@@ -24,35 +24,6 @@ public class AuthController {
     @Autowired
     private KeycloakService keycloakService;
 
-    @GetMapping("/auth")
-    public ResponseEntity<?> authentication (Principal userCredentials, HttpServletResponse response) {
-        try {
-            if (userCredentials instanceof Authentication) {
-                Authentication authentication = (Authentication) userCredentials;
-                Object credentials = authentication.getCredentials();
-
-                Jwt jwt = (Jwt) credentials;
-
-                String cookieHeader = String.format(
-                        "auth=%s; HttpOnly; Secure; Path=/; Max-Age=%d; SameSite=%s",
-                        jwt.getTokenValue(), Duration.between(Instant.now(), jwt.getExpiresAt()).getSeconds() , "none"
-                );
-
-                response.setHeader("Set-Cookie", cookieHeader);
-                return ResponseEntity.ok("Cookie created successfully");
-            }
-            return ResponseEntity.internalServerError().body("Error occurred,\nCannot extract cookie from request!");
-        }
-        catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error occurred,\nCannot extract cookie from request!");
-        }
-    }
-
-    @GetMapping("/username")
-    public String getAccountName(Principal principal) {
-        return principal.getName();
-    }
-
     @PostMapping("/user/login")
     public ResponseEntity<?> Login(@RequestParam String username, @RequestParam String password,
                                    HttpServletResponse response) {
@@ -84,5 +55,26 @@ public class AuthController {
         Mono<AuthResponse> authResponse = keycloakService.Login(true,false,null,null, null);
         // GET USER DATA
         return keycloakService.getUserData(authResponse.block().getAccessToken(), username).block();
+    }
+
+    @PostMapping("/user/resetpassword")
+    public Map<String,Object> resetPassword(@RequestParam("userId") String userId ,@RequestBody Map<String, Object> newPassword) {
+        // LOGIN AS ADMIN
+        Mono<AuthResponse> authResponse = keycloakService.Login(true,false,null,null, null);
+        // RESET USER PASSWORD
+        return keycloakService.ResetPassword(newPassword, userId, authResponse.block().getAccessToken());
+    }
+
+    @PostMapping("/user/modify")
+    public Map<String,Object> modifyUser(@RequestParam("userId") String userId ,@RequestBody Map<String, Object> newData) {
+        // LOGIN AS ADMIN
+        Mono<AuthResponse> authResponse = keycloakService.Login(true,false,null,null, null);
+        // RESET USER PASSWORD
+        return keycloakService.ModifyUser(newData, userId, authResponse.block().getAccessToken());
+    }
+
+    @GetMapping("/user/logout")
+    public ResponseEntity<?> logOut(HttpServletResponse response) {
+        return keycloakService.DeleteCookies("auth", response);
     }
 }
