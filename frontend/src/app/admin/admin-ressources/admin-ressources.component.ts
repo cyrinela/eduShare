@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Status } from '../../model/ressource.model';
+import { AuthService } from '../../services/auth/auth.service';
+import { KeycloakService } from '../../services/keycloak.service';
 import { RessourceService } from '../../services/ressource.service';
 
 @Component({
@@ -19,7 +22,7 @@ export class AdminRessourcesComponent implements OnInit {
   ressources: any[] = [];
   statuses = [Status.EN_ATTENTE, Status.ACCEPTE, Status.REFUSE];  // Use the enum directly
 
-  constructor(private ressourceService: RessourceService) {}
+  constructor(private ressourceService: RessourceService,private http: HttpClient,private router: Router, private keycloakService: KeycloakService ,private authService : AuthService ) {}
 
   ngOnInit(): void {
     this.loadRessources();
@@ -66,5 +69,19 @@ export class AdminRessourcesComponent implements OnInit {
         alert('Failed to update resource status. Please try again.');
       }
     );
+  }
+  logout() {
+    this.authService.logout().subscribe({
+      next: (success) => {
+        alert("Logged out successfully!")
+        this.router.navigate(["/userpage"]);
+      },
+      error: (err) => {
+        if (err.status == 200) {
+          alert("Logged out successfully!")
+          this.router.navigate(["/userpage"]);
+        }
+      }
+    })
   }
 }

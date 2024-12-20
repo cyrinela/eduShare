@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import { KeycloakService } from '../../services/keycloak.service';
 import { RessourceService } from '../../services/ressource.service';
 
 @Component({
@@ -17,7 +20,8 @@ import { RessourceService } from '../../services/ressource.service';
 export class AdminCategoriesComponent implements OnInit {
   categories: any[] = [];
 
-  constructor(private ressourceService: RessourceService) {}
+
+  constructor(private ressourceService: RessourceService,private http: HttpClient,private router: Router, private keycloakService: KeycloakService ,private authService : AuthService ) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -70,4 +74,18 @@ export class AdminCategoriesComponent implements OnInit {
       }
     );
   }*/
+    logout() {
+      this.authService.logout().subscribe({
+        next: (success) => {
+          alert("Logged out successfully!")
+          this.router.navigate(["/userpage"]);
+        },
+        error: (err) => {
+          if (err.status == 200) {
+            alert("Logged out successfully!")
+            this.router.navigate(["/userpage"]);
+          }
+        }
+      })
+    }
 }

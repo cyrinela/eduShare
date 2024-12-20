@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { environment } from '../../environment.dev';
+import { AuthService } from '../../services/auth/auth.service';
 import { KeycloakService } from '../../services/keycloak.service';
 
 
@@ -33,7 +35,7 @@ export class AdminUsersComponent implements OnInit {
   private token: string = '';
   private searchSubject: Subject<string> = new Subject<string>();
 
-  constructor(private http: HttpClient, private keycloakService: KeycloakService) {}
+  constructor(private http: HttpClient,private router: Router, private keycloakService: KeycloakService ,private authService : AuthService ) {}
 
   ngOnInit(): void {
     this.getAccessToken().then(() => {
@@ -135,6 +137,20 @@ export class AdminUsersComponent implements OnInit {
         }
       );
     }
+  }
+  logout() {
+    this.authService.logout().subscribe({
+      next: (success) => {
+        alert("Logged out successfully!")
+        this.router.navigate(["/userpage"]);
+      },
+      error: (err) => {
+        if (err.status == 200) {
+          alert("Logged out successfully!")
+          this.router.navigate(["/userpage"]);
+        }
+      }
+    })
   }
 }
 
