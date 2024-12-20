@@ -10,21 +10,27 @@ class Credentials {
     private String value;
     private Boolean temporary;
 
+    // Getters and Setters
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
+
     public String getValue() {
         return value;
     }
+
     public void setValue(String value) {
         this.value = value;
     }
+
     public Boolean getTemporary() {
         return temporary;
     }
+
     public void setTemporary(Boolean temporary) {
         this.temporary = temporary;
     }
@@ -33,29 +39,43 @@ class Credentials {
 public class User {
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("username")
     private String username;
+
     @JsonProperty("firstName")
     private String firstName;
+
     @JsonProperty("lastName")
     private String lastName;
+
     @JsonProperty("email")
     private String email;
+
     @JsonProperty("emailVerified")
     private Boolean emailVerified;
+
     @JsonProperty("enabled")
     private Boolean enabled;
+
     @JsonProperty("requiredActions")
     private ArrayList requiredActions;
+
     @JsonProperty("groups")
     private ArrayList groups;
+
     @JsonProperty("credentials")
     private List<Credentials> credentials;
 
+    // New field for roles
+    @JsonProperty("roles")
+    private List<String> roles;
 
+    // Getters and Setters for all fields, including roles
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -130,5 +150,13 @@ public class User {
 
     public void setCredentials(List<Credentials> credentials) {
         this.credentials = credentials;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

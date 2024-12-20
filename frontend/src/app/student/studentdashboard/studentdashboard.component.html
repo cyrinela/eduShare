@@ -1,13 +1,13 @@
 <app-studentheader></app-studentheader>
- 
+
  <!-- **************** MAIN CONTENT START **************** -->
 
     <!-- =======================
     Page content START -->
     <section class="container">
-        
+
         <app-student-sidenav/>
-    
+
         <!-- Main content START -->
         <div class="col-xl-9">
             <!-- Card START -->
@@ -57,11 +57,11 @@
                                     </td>
                                     <!-- Status item -->
                                     <td>
-                                        <div *ngIf="item.status == 'acceptée'" class="badge bg-success bg-opacity-10 text-success">{{item.status}}</div>
-                                        <div *ngIf="item.status == 'en attend'" class="badge bg-warning bg-opacity-10 text-warning">{{item.status}}</div>
-                                        <div *ngIf="item.status == 'refusée'" class="badge bg-danger bg-opacity-10 text-danger">{{item.status}}</div>
+                                        <div *ngIf="item.status == 'ACCEPTE'" class="badge bg-success bg-opacity-10 text-success">{{item.status}}</div>
+                                        <div *ngIf="item.status == 'EN_ATTENTE'" class="badge bg-warning bg-opacity-10 text-warning">{{item.status}}</div>
+                                        <div *ngIf="item.status == 'REFUSE'" class="badge bg-danger bg-opacity-10 text-danger">{{item.status}}</div>
                                     </td>
-                                    
+
                                     <td>
                                         <a class="btn btn-sm btn-success-soft btn-round me-1 mb-0" (click)="toggleEdit(item)"><i class="far fa-fw fa-edit"></i></a> <!--edit button-->
                                         <a class="btn btn-sm btn-danger-soft btn-round mb-0" (click)="supprimerRessource(item)"><i class="fas fa-fw fa-times"></i></a>  <!--delete button-->

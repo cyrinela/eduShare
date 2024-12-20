@@ -31,17 +31,17 @@ export const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'studentgroups', component: StudentgroupsComponent },
   { path: 'studentaddgroup', component: StudentaddgroupComponent },
-<<<<<<< Updated upstream
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-=======
+
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'admin-ressources', component: AdminRessourcesComponent },
   { path: 'admin-users', component: AdminUsersComponent },
   { path: 'admin-categories', component: AdminCategoriesComponent },
   { path: 'admin-add-categorie', component: AdminAddCategorieComponent},
->>>>>>> Stashed changes
+
 
 
 

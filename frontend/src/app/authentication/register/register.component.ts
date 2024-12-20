@@ -1,8 +1,8 @@
 // angular import
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { SharedModule } from '../../shared.module';
 import { AuthService } from '../../services/auth/auth.service';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-register',
@@ -40,8 +40,8 @@ export class RegisterComponent {
   ) {}
 
   signup() {
-        
-        this.userPayload = 
+
+        this.userPayload =
         {
           username: this.firstname.trim() + " " + this.lastname.trim(),
           firstName: this.firstname.trim(),
@@ -59,7 +59,7 @@ export class RegisterComponent {
             }
           ]
         };
-        
+
         // CREATE USER
         this.authService.signup(this.userPayload).subscribe({
           next: (success) => {
@@ -84,6 +84,6 @@ export class RegisterComponent {
   }
 
   IdPLogin(provider:string) {
-    this.authService.RiderectIdPLogin(provider);
+    this.authService.redirectIdPLogin(provider);
   }
 }

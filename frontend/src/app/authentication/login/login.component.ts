@@ -39,7 +39,6 @@ export class LoginComponent {
   login() {
     this.authService.login({username:this.email,password:this.password}).subscribe({
       next: (success) => {
-<<<<<<< Updated upstream
           console.log("authentified");
           // SAVE USER INFO TO LOCAL STORAGE
           this.authService.getUserInfo(this.email).subscribe({
@@ -48,23 +47,6 @@ export class LoginComponent {
             },
             error: (err) => {
               console.log(err);
-=======
-        console.log("authentified");
-        // set HttpOnly Cookie
-        this.authService.createCookies(success.access_token).subscribe({
-          next: (success) => {
-            if (success.status === 200) {
-              console.log("Cookie created", success);
-              alert("Redirecting to EduShare");
-            this.router.navigate(["/userpage"]);
-            }
-          },
-          error: (err) => {
-            if (err.status === 200) {
-              console.log("Cookie created", err);
-              alert("Redirecting to EduShare");
-            this.router.navigate(["/userpage"]);
->>>>>>> Stashed changes
             }
           })
           alert("Redirecting to EduShare");
@@ -92,6 +74,6 @@ export class LoginComponent {
   }
 
   IdPLogin(provider:string) {
-    this.authService.RiderectIdPLogin(provider);
+    this.authService.redirectIdPLogin(provider);
   }
 }

@@ -5,6 +5,7 @@ import com.example.users.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -23,14 +24,31 @@ public class AuthController {
 
     @Autowired
     private KeycloakService keycloakService;
-
+/*
     @PostMapping("/user/login")
     public ResponseEntity<?> Login(@RequestParam String username, @RequestParam String password,
                                    HttpServletResponse response) {
 
         Mono<AuthResponse> Response = keycloakService.Login(false,false,null,username,password);
         return keycloakService.CreateCookies(Response.block(),response);
+    }*/
+
+    @PostMapping("/user/login")
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password,
+                                   HttpServletResponse response) {
+
+        Mono<AuthResponse> authResponse = keycloakService.Login(false, false, null, username, password);
+
+        AuthResponse authDetails = authResponse.block(); // Block to get response synchronously
+
+        if (authDetails != null && authDetails.getRoles() != null) {
+            // Check the role and create the cookies accordingly
+            return keycloakService.CreateCookies(authDetails, response);
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials or role not assigned");
     }
+
     @PostMapping("/user/signup")
     public String Signup(@RequestBody User user) {
         // LOGIN AS ADMIN

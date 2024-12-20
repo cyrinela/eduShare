@@ -18,14 +18,6 @@ export class Ressource {
   creeLe!: Date;
   categorie!: Categorie;
   fileMetaData!: fileMetaData;
-<<<<<<< Updated upstream
-  status!: string;
-  //comments?: Commentaire[];
-=======
- // Use the Status enum type for status
 
-  // Optional: comments or other properties
-  // comments?: Commentaire[];
->>>>>>> Stashed changes
 }
 
