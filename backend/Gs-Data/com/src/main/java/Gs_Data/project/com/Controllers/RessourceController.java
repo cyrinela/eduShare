@@ -114,4 +114,21 @@ public class RessourceController {
             return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
         }
     }
+
+   /* @PutMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @RequestMapping(value="/{id}/status",method = RequestMethod.PUT)
+    public Ressource updateStatus(@PathVariable Long id, @RequestParam Ressource.Status status) {
+        return ressourceService.updateStatus(id, status);
+    }*/
+   @PutMapping("/{id}/status")
+   @PreAuthorize("hasAnyRole('USER','ADMIN')")
+   public Ressource updateStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
+       String statusString = request.get("status");  // Get 'status' from the request body
+       Ressource.Status status = Ressource.Status.valueOf(statusString);  // Convert string to enum
+       return ressourceService.updateStatus(id, status);  // Update the resource
+   }
+
+
+
 }

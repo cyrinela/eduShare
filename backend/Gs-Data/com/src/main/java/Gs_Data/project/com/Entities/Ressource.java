@@ -18,7 +18,16 @@ public class Ressource {
     private Long id;
     private String nom;
     private String description;
+<<<<<<< Updated upstream
     private String status = "en attend";
+=======
+    private Status status = Status.EN_ATTENTE; // Default status
+
+    // Getters and setters
+    public enum Status {
+        EN_ATTENTE, ACCEPTE, REFUSE
+    }
+>>>>>>> Stashed changes
 
     @ManyToOne
     @JoinColumn(name = "categorie_id")
@@ -34,4 +43,13 @@ public class Ressource {
     private LocalDateTime creeLe;
     @UpdateTimestamp
     private LocalDateTime modifieLe;
+
+    /**/
+
+    public Status getStatus() {
+        return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
