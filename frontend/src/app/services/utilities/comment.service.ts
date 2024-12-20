@@ -37,4 +37,8 @@ export class CommentService {
   addReview(newReview : any) : Observable<any> {
     return this.http.post(`${this.baseURL}/reviews/add`, newReview);
   }
+
+  loadMyReviews(userId: string) {
+    return this.http.get(`${this.baseURL}/reviews/myreviews?id=${userId}`);
+  }
 }
