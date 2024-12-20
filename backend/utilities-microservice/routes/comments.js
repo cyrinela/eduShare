@@ -1,13 +1,14 @@
 import express from 'express';
+import { addComment, deleteComment, getComments } from '../controllers/commentController.js';
 
 
 
 const router = express.Router();
 
-router.get('/all', (req,res) => {
-    console.log("SHOW ALL COMMENTS");
-    
-    res.json({result:"SHOW ALL COMMENTS"})
-})
+router.get('/all', getComments);
+
+router.post('/add', addComment);
+
+router.delete('/', deleteComment)
 
 export default router;

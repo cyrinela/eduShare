@@ -43,7 +43,6 @@ export class LoginComponent {
           // SAVE USER INFO TO LOCAL STORAGE
           this.authService.getUserInfo(this.email).subscribe({
             next : (success) => {
-              console.log(success);
               localStorage.setItem('userInfo', JSON.stringify(success));
             },
             error: (err) => {
@@ -59,7 +58,6 @@ export class LoginComponent {
           // SAVE USER INFO TO LOCAL STORAGE
           this.authService.getUserInfo(this.email).subscribe({
             next : (success) => {
-              console.log(success);
               localStorage.setItem('userInfo', JSON.stringify(success));
             },
             error: (err) => {
