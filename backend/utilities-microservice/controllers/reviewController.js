@@ -17,3 +17,12 @@ export const getReviews = async (req, res) => {
 
     res.status(200).json(results);
 }
+
+export const getMyReviews = async (req, res) => {
+    const userId = req.query.id;
+
+    const results = await Review.find({userId: userId})
+    .catch((error) => {console.log(error);});
+
+    res.status(200).json(results);
+}
